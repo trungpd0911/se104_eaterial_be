@@ -2,6 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const initWebRoutes = require('./routes/web');
 require('dotenv').config();
+const db = require('../src/models/index.js');
+
 
 let app = express();
 

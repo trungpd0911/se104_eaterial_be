@@ -5,6 +5,7 @@ let router = express.Router();
 
 let initWebRoutes = (app) => {
     router.use('/auth', authRoute);
+    router.use('/')
 
     return app.use("/v1/", router);
 };
