@@ -1,39 +1,44 @@
 module.exports = (sequelize, DataTypes) => {
-    const User = sequelize.define('user', {
-        username: {
+    const Dish = sequelize.define('dish', {
+        dishName: {
+            field: 'dish_name',
             type: DataTypes.STRING,
             allowNull: false
         },
-        email: {
+        dishTypeId: {
+            field: 'dish_type_id',
             type: DataTypes.STRING,
             allowNull: false
         },
-        password: {
+        dishPrice: {
+            field: 'dish_price',
             type: DataTypes.STRING,
             allowNull: false
         },
-        gender: {
+        dishDescription: {
+            field: 'dish_description',
             type: DataTypes.STRING,
-            allowNull: true
+            allowNull: false
         },
-        address: {
+        dishImage: {
+            field: 'dish_image',
             type: DataTypes.STRING,
-            allowNull: true
+            allowNull: false
         },
-        phoneNumber: {
-            field: 'phone_number',
+        totalOrder: {
+            field: 'total_order',
             type: DataTypes.STRING,
-            allowNull: true
+            allowNull: false
         },
-        avatar: {
+        discountId: {
+            field: 'discount_id',
             type: DataTypes.STRING,
-            allowNull: true
+            allowNull: false
         },
-        isAdmin: {
-            field: 'is_admin',
-            type: DataTypes.BOOLEAN,
-            allowNull: false,
-            defaultValue: false
+        menuId: {
+            field: 'menu_id',
+            type: DataTypes.STRING,
+            allowNull: false
         },
         // change name createdAt to created_at and auto generate
         createdAt: {
@@ -52,5 +57,5 @@ module.exports = (sequelize, DataTypes) => {
 
     });
 
-    return User;
+    return Dish;
 }

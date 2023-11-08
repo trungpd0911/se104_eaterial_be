@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 initWebRoutes(app);
 
-let port = process.env.PORT || 8080;
+let port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log(`App is running at the port ${port}`);
 })
