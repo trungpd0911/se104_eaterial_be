@@ -40,6 +40,7 @@ db.tableBooking = require('./tableBookingModel')(sequelize, DataTypes);
 db.comment = require('./commentModel')(sequelize, DataTypes);
 db.bill = require('./billModel')(sequelize, DataTypes);
 db.billDish = require('./billDishModel')(sequelize, DataTypes);
+db.image = require('./imageModel')(sequelize, DataTypes);
 
 // setup for foreign keys
 
@@ -140,6 +141,15 @@ db.discount.belongsTo(db.dish, {
     foreignKeyConstraint: true,
 });
 
+// dish has many image
+db.dish.hasMany(db.image, {
+    foreignKey: 'dish_id',
+    foreignKeyConstraint: true,
+});
+db.image.belongsTo(db.dish, {
+    foreignKey: 'dish_id',
+    foreignKeyConstraint: true,
+});
 
 
 
