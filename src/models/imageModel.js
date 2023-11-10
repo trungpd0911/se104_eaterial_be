@@ -1,37 +1,17 @@
 module.exports = (sequelize, DataTypes) => {
-    const Dish = sequelize.define('dish', {
-        dishName: {
-            field: 'dish_name',
+    const image = sequelize.define('image', {
+        imageId: {
+            field: 'image_id',
             type: DataTypes.STRING,
             allowNull: false
         },
-        dishTypeId: {
-            field: 'dish_type_id',
+        imageLink: {
+            field: 'image_link',
             type: DataTypes.STRING,
             allowNull: false
         },
-        dishPrice: {
-            field: 'dish_price',
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        dishDescription: {
-            field: 'dish_description',
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        totalOrder: {
-            field: 'total_order',
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        discountId: {
-            field: 'discount_id',
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        menuId: {
-            field: 'menu_id',
+        dishId: {
+            field: 'dish_id',
             type: DataTypes.STRING,
             allowNull: false
         },
@@ -52,5 +32,5 @@ module.exports = (sequelize, DataTypes) => {
 
     });
 
-    return Dish;
+    return image;
 }
