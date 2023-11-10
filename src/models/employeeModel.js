@@ -10,11 +10,6 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
-        userId: {
-            field: 'user_id',
-            type: DataTypes.STRING,
-            allowNull: false
-        },
         salary: {
             type: DataTypes.STRING,
             allowNull: true
