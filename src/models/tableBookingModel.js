@@ -1,39 +1,19 @@
 module.exports = (sequelize, DataTypes) => {
-    const User = sequelize.define('user', {
-        username: {
+    const TableBooking = sequelize.define('table_booking', {
+        userId: {
+            field: 'user_id',
             type: DataTypes.STRING,
             allowNull: false
         },
-        email: {
+        tableId: {
+            field: 'table_id',
             type: DataTypes.STRING,
             allowNull: false
         },
-        password: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        gender: {
+        bookingTime: {
+            field: 'booking_time',
             type: DataTypes.STRING,
             allowNull: true
-        },
-        address: {
-            type: DataTypes.STRING,
-            allowNull: true
-        },
-        phoneNumber: {
-            field: 'phone_number',
-            type: DataTypes.STRING,
-            allowNull: true
-        },
-        avatar: {
-            type: DataTypes.STRING,
-            allowNull: true
-        },
-        isAdmin: {
-            field: 'is_admin',
-            type: DataTypes.BOOLEAN,
-            allowNull: false,
-            defaultValue: false
         },
         // change name createdAt to created_at and auto generate
         createdAt: {
@@ -52,5 +32,5 @@ module.exports = (sequelize, DataTypes) => {
 
     });
 
-    return User;
+    return TableBooking;
 }

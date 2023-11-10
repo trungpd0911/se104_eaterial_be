@@ -1,39 +1,24 @@
 module.exports = (sequelize, DataTypes) => {
-    const User = sequelize.define('user', {
-        username: {
+    const Comment = sequelize.define('comment', {
+        commentContent: {
+            field: 'comment_content',
             type: DataTypes.STRING,
             allowNull: false
         },
-        email: {
+        rating: {
+            field: 'rating',
             type: DataTypes.STRING,
             allowNull: false
         },
-        password: {
+        customerId: {
+            field: 'customer_id',
             type: DataTypes.STRING,
             allowNull: false
         },
-        gender: {
+        dishId: {
+            field: 'dish_id',
             type: DataTypes.STRING,
-            allowNull: true
-        },
-        address: {
-            type: DataTypes.STRING,
-            allowNull: true
-        },
-        phoneNumber: {
-            field: 'phone_number',
-            type: DataTypes.STRING,
-            allowNull: true
-        },
-        avatar: {
-            type: DataTypes.STRING,
-            allowNull: true
-        },
-        isAdmin: {
-            field: 'is_admin',
-            type: DataTypes.BOOLEAN,
-            allowNull: false,
-            defaultValue: false
+            allowNull: false
         },
         // change name createdAt to created_at and auto generate
         createdAt: {
@@ -52,5 +37,5 @@ module.exports = (sequelize, DataTypes) => {
 
     });
 
-    return User;
+    return Comment;
 }
