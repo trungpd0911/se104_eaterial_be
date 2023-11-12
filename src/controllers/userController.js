@@ -27,9 +27,18 @@ const deleteUser = async (req, res) => {
     res.status(response.status).json(response);
 }
 
+const forgotPassword = async (req, res) => {
+}
+
+const changePassword = async (req, res) => {
+}
+
+
 module.exports = {
     getAllUsers,
     getUserByID,
     updateUser,
-    deleteUser
+    deleteUser,
+    forgotPassword,
+    changePassword
 }
