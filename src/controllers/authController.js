@@ -13,7 +13,15 @@ const register = async (req, res) => {
 const login = async (req, res) => {
     try {
         const response = await authService.login(req.body);
-        res.status(response.statusCode).json(response);
+        res.cookie("refreshToken", response.data.refreshToken,
+            {
+                httpOnly: true,
+                secure: false, // deploy: true
+                path: "/",
+                sameSite: "strict",
+            });
+        const { refreshToken, ...info } = response.data;
+        res.status(response.statusCode).json(info);
     } catch (err) {
         res.status(500).json(err);
     }
@@ -21,9 +29,31 @@ const login = async (req, res) => {
 
 const logout = async (req, res) => {
     try {
-        const { refreshToken } = req.body;
-        await authService.logout(refreshToken);
-        res.status(200).json('User logged out.');
+        res.clearCookie("refreshToken");
+        const response = await authService.logout(req.body);
+        res.status(response.statusCode).json(response);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+}
+
+const refreshToken = async (req, res) => {
+    try {
+        //Take refresh token from user
+        const refreshToken = req.cookies.refreshToken;
+        const response = await authService.refreshToken(refreshToken);
+        const newRefreshToken = response.data.refreshToken;
+        res.cookie("refreshToken", newRefreshToken,
+            {
+                httpOnly: true,
+                secure: false, // deploy: true
+                // When set to true, the cookie will only be sent over HTTPS
+                path: "/",
+                sameSite: "strict",
+                // When set to strict, the cookie will only be sent along with requests
+            });
+        const { refreshToken: _, ...info } = response.data;
+        res.status(response.statusCode).json(info); 9
     } catch (err) {
         res.status(500).json(err);
     }
@@ -39,20 +69,11 @@ const forgotPassword = async (req, res) => {
     }
 }
 
-const refreshToken = async (req, res) => {
-    try {
-        const { refreshToken } = req.body;
-        const tokens = await authService.refreshToken(refreshToken);
-        res.status(200).json(tokens);
-    } catch (err) {
-        res.status(500).json(err);
-    }
-}
 
 module.exports = {
     register,
     login,
     logout,
+    refreshToken,
     forgotPassword,
-    refreshToken
 }
