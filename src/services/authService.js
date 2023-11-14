@@ -46,7 +46,7 @@ const generateAccessToken = (User) => {
     return jwt.sign(
         {
             id: User.id,
-            admin: User.isAdmin,
+            isAdmin: User.isAdmin,
         },
         process.env.SECRET_ACCESS_KEY,
         {
@@ -55,10 +55,11 @@ const generateAccessToken = (User) => {
     )
 }
 const generateRefreshToken = (User) => {
+    // console.log(User);
     return jwt.sign(
         {
             id: User.id,
-            admin: User.isAdmin,
+            isAdmin: User.isAdmin,
         },
         process.env.SECRET_REFRESH_KEY,
         {

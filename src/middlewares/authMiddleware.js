@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
+// verify token is check if the token is valid
 const verifyToken = (req, res, next) => {
     try {
         const token = req.headers.token;
@@ -21,17 +22,43 @@ const verifyToken = (req, res, next) => {
     }
 }
 
-const verifyTokenAndAdmin = (req, res, next) => {
+// verify token and admin is check if the user is admin
+const verifyTokenAdmin = (req, res, next) => {
     verifyToken(req, res, () => {
-        if (req.user.role !== "admin") {
+        if (req.user.isAdmin !== true) {
             res.status(403).json("Access denied");
         }
         next();
     });
 }
 
+// verify token and authorization is check if the user is the same as the user or admin that is logged in
+const verifyTokenAdminOrCurrentUser = (req, res, next) => {
+    verifyToken(req, res, () => {
+        if (req.user.id == req.params.id || req.user.isAdmin === true) {
+            next();
+        } else {
+            res.status(403).json("Access denied");
+        }
+    });
+}
+
+
+// verify token and authorization is check if the user is the same as the user that is logged in
+const verifyTokenAndAuthorization = (req, res, next) => {
+    verifyToken(req, res, () => {
+        if (req.user.id == req.params.id) {
+            next();
+        } else {
+            res.status(403).json("Access denied");
+        }
+    });
+}
+
 module.exports = {
     verifyToken,
-    verifyTokenAndAdmin,
+    verifyTokenAdmin,
+    verifyTokenAdminOrCurrentUser,
+    verifyTokenAndAuthorization,
 };
 

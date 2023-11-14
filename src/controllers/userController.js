@@ -16,8 +16,11 @@ const getUserByID = async (req, res) => {
 }
 
 const updateUser = async (req, res) => {
+    console.log(req.file);
+    console.log(req.body);
     const id = req.params.id;
-    const response = await userService.updateUser(id, req.body);
+    const fileData = req.file;
+    const response = await userService.updateUser(id, fileData, req.body);
     res.status(response.status).json(response);
 }
 
@@ -28,9 +31,15 @@ const deleteUser = async (req, res) => {
 }
 
 const forgotPassword = async (req, res) => {
+    const email = req.body.email;
+    const response = await userService.forgotPassword(email);
+    res.status(response.status).json(response);
 }
 
 const changePassword = async (req, res) => {
+    const id = req.params.id;
+    const response = await userService.changePassword(id, req.body);
+    res.status(response.status).json(response);
 }
 
 
