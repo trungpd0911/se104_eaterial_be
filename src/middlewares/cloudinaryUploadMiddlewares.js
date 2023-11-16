@@ -9,7 +9,7 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_SECRET
 });
 
-const storage = new CloudinaryStorage({
+const storageUser = new CloudinaryStorage({
     cloudinary,
     allowedFormats: ['jpg', 'png'],
     params: {
@@ -17,6 +17,19 @@ const storage = new CloudinaryStorage({
     }
 });
 
-const uploadCloud = multer({ storage });
+const storageDish = new CloudinaryStorage({
+    cloudinary,
+    allowedFormats: ['jpg', 'png'],
+    params: {
+        folder: "imageDish4FOOD",
+    }
+});
 
-module.exports = uploadCloud;
+const uploadCloudUser = multer({ storage: storageUser });
+const uploadCloudDish = multer({ storage: storageDish });
+
+
+module.exports = {
+    uploadCloudUser,
+    uploadCloudDish,
+};

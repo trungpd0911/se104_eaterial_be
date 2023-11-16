@@ -1,7 +1,6 @@
 const db = require('../models/index')
 const nodeMailer = require('nodemailer');
 const userModel = db.user;
-
 const bcrypt = require('bcrypt');
 require('dotenv').config();
 const cloudinary = require('cloudinary').v2;
@@ -57,19 +56,18 @@ const updateUser = async (id, fileData, data) => {
                 data: null,
             }
         // update user
-        if (user.avatar !== null) {
-            // delete old avatar
-        }
         user.username = username;
         user.gender = gender;
         user.address = address;
         user.phoneNumber = phoneNumber;
-        user.avatar = fileData.path;
+        if (fileData) {
+            user.avatar = fileData?.path;
+        }
         await user.save();
         return {
             status: 200,
             message: 'User updated successfully',
-            data: user
+            data: user,
         }
     } catch (error) {
         cloudinary.uploader.destroy(fileData.filename);

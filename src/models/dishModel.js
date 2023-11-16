@@ -5,11 +5,6 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
-        dishTypeId: {
-            field: 'dish_type_id',
-            type: DataTypes.STRING,
-            allowNull: false
-        },
         dishPrice: {
             field: 'dish_price',
             type: DataTypes.STRING,
@@ -22,13 +17,13 @@ module.exports = (sequelize, DataTypes) => {
         },
         totalOrder: {
             field: 'total_order',
-            type: DataTypes.STRING,
-            allowNull: false
+            type: DataTypes.INTEGER,
+            allowNull: true
         },
         discountId: {
             field: 'discount_id',
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         menuId: {
             field: 'menu_id',

@@ -13,13 +13,16 @@ let router = express.Router();
 
 let initWebRoutes = (app) => {
     router.use('/auth', authRoute);
+    // done
     router.use('/user', userRoute);
+    // done
     router.use('/dish', dishRoute);
-    router.use('/discount', discountRoute);
-    router.use('/bill', billRoute);
-    router.use('/table', tableRoute);
+    router.use('/menu', menuRoute);
     router.use('/employee', employeeRoute);
-    router.use('menu', menuRoute);
+
+    router.use('/bill', billRoute);
+    router.use('/discount', discountRoute);
+    router.use('/table', tableRoute);
     router.use('/revenue', revenueRoute);
 
     return app.use("/v1/", router);
