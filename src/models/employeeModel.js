@@ -19,6 +19,11 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: true
         },
+        phoneNumber: {
+            field: 'phone_number',
+            type: DataTypes.STRING,
+            allowNull: true
+        },
         // change name createdAt to created_at and auto generate
         createdAt: {
             field: 'created_at',

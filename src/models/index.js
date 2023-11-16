@@ -31,7 +31,6 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 db.user = require('./userModel')(sequelize, DataTypes);
 db.employee = require('./employeeModel')(sequelize, DataTypes);
-db.dishType = require('./dishTypeModel')(sequelize, DataTypes);
 db.dish = require('./dishModel')(sequelize, DataTypes);
 db.menu = require('./menuModel')(sequelize, DataTypes);
 db.discount = require('./discountModel')(sequelize, DataTypes);
@@ -118,16 +117,6 @@ db.menu.hasMany(db.dish, {
 });
 db.dish.belongsTo(db.menu, {
     foreignKey: 'menu_id',
-    foreignKeyConstraint: true,
-});
-
-// dish and dish type
-db.dishType.hasMany(db.dish, {
-    foreignKey: 'dish_type_id',
-    foreignKeyConstraint: true,
-});
-db.dish.belongsTo(db.dishType, {
-    foreignKey: 'dish_type_id',
     foreignKeyConstraint: true,
 });
 
