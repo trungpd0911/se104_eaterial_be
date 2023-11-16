@@ -14,8 +14,8 @@ router.get("/dish/:id/:billid", authMiddleware.verifyTokenAdminOrCurrentUser, bi
 router.post("/checkout/:id", authMiddleware.verifyTokenAdminOrCurrentUser, billController.checkout);
 
 // owner user
-router.get("/cart", billController.getDishesInCart);
-router.post("/dish/add", billController.addDishToCart);
-router.post("/dish/remove", billController.removeDishFromCart);
+router.get("/cart", authMiddleware.verifyToken, billController.getDishesInCart);
+router.post("/dish/add", authMiddleware.verifyToken, billController.addDishToCart);
+router.post("/dish/remove", authMiddleware.verifyToken, billController.removeDishFromCart);
 
 module.exports = router;

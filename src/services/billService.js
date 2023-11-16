@@ -24,8 +24,7 @@ const getAllBills = async () => {
     } catch (error) {
         return {
             status: 500,
-            message: error.message,
-            data: null,
+            message: error.message
         }
     }
 }
@@ -53,8 +52,7 @@ const getUsersUnpaidBill = async (userid) => {
     } catch (error) {
         return {
             status: 500,
-            message: error.message,
-            data: null,
+            message: error.message
         }
     }
 }
@@ -81,8 +79,7 @@ const getAllBillsByUserID = async (userid) => {
     } catch (error) {
         return {
             status: 500,
-            message: error.message,
-            data: null,
+            message: error.message
         }
     }
 }
@@ -109,8 +106,7 @@ const getAllBillsByUserName = async (username) => {
     } catch (error) {
         return {
             status: 500,
-            message: error.message,
-            data: null,
+            message: error.message
         }
     }
 }
@@ -168,8 +164,7 @@ const filterBills = async (filter) => {
     } catch (error) {
         return {
             status: 500,
-            message: error.message,
-            data: null,
+            message: error.message
         }
     }
 }
@@ -234,8 +229,7 @@ const addDishToCart = async (addDishToCartReq) => {
     } catch (error) {
         return {
             status: 500,
-            message: error.message,
-            data: null,
+            message: error.message
         }
     }
 }
@@ -254,8 +248,7 @@ const removeDishFromCart = async (removeDishFromCartReq) => {
         if (!unpaidBill) {
             return {
                 status: 400,
-                message: "No dish found",
-                data: null,
+                message: "No dish found"
             }
         } else {
             let currBillDish = await billDishModel.findOne({
@@ -281,13 +274,11 @@ const removeDishFromCart = async (removeDishFromCartReq) => {
         return {
             status: 200,
             message: "Remove dish from cart successfully",
-            data: null,
         }
     } catch (error) {
         return {
             status: 500,
-            message: error.message,
-            data: null,
+            message: error.message
         }
     }
 }
@@ -304,8 +295,7 @@ const getAllDishesOfBill = async (userId, billId) => {
         if (!currBill) {
             return {
                 status: 400,
-                message: "Wrong bill ID",
-                data: null,
+                message: "Wrong bill ID"
             }
         } else {
             const dishList = await dishModel.findAll({
@@ -332,14 +322,13 @@ const getAllDishesOfBill = async (userId, billId) => {
             return {
                 status: 200,
                 message: "Get all dishes of bill successfully",
-                data: dishList,
+                data: dishList
             }
         }
     } catch(error) {
         return {
             status: 500,
-            message: error.message,
-            data: null,
+            message: error.message
         }
     }
 }
@@ -365,8 +354,7 @@ const getDishesInCart = async (userId) => {
     } catch (error) {
         return {
             status: 500,
-            message: error.message,
-            data: null,
+            message: error.message
         }
     }
 }
@@ -380,19 +368,24 @@ const checkout = async (userId) => {
             }
         });
 
+        if (!unpaidBill) {
+            return {
+                status: 500,
+                message: "No unpaid bill found"
+            }
+        }
+
         unpaidBill.billPayed = true;
         unpaidBill.save();
 
         return {
             status: 200,
             message: "Check out successfully",
-            data: dishList,
         }
     } catch (error) {
         return {
             status: 500,
-            message: error.message,
-            data: null,
+            message: error.message
         }
     }
 }
