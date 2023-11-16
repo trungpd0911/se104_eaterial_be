@@ -100,16 +100,34 @@ db.table.belongsToMany(db.user, {
 })
 
 // dish and bill create bill dish
-db.dish.belongsToMany(db.bill, {
-    through: db.billDish,
-    foreignKey: 'dish_id',
-    otherKey: 'bill_id',
-})
 db.bill.belongsToMany(db.dish, {
     through: db.billDish,
-    foreignKey: 'bill_id',
-    otherKey: 'dish_id',
+    foreignKey: 'billId',
+    otherKey: 'dishId',
 })
+db.dish.belongsToMany(db.bill, {
+    through: db.billDish,
+    foreignKey: 'dishId',
+    otherKey: 'billId',
+})
+
+// db.dish.hasMany(db.billDish, {
+//     foreignKey: 'dish_id',
+//     foreignKeyConstraint: true,
+// })
+// db.billDish.belongsTo(db.dish, {
+//     foreignKey: 'dish_id',
+//     foreignKeyConstraint: true,
+// })
+
+// db.bill.hasMany(db.billDish, {
+//     foreignKey: 'bill_id',
+//     foreignKeyConstraint: true,
+// })
+// db.billDish.belongsTo(db.bill, {
+//     foreignKey: 'bill_id',
+//     foreignKeyConstraint: true,
+// })
 
 // menu has many dish 
 db.menu.hasMany(db.dish, {

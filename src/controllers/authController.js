@@ -13,15 +13,20 @@ const register = async (req, res) => {
 const login = async (req, res) => {
     try {
         const response = await authService.login(req.body);
-        res.cookie("refreshToken", response.data.refreshToken,
-            {
-                httpOnly: true,
-                secure: false, // deploy: true
-                path: "/",
-                sameSite: "strict",
-            });
-        const { refreshToken, ...info } = response.data;
-        res.status(response.statusCode).json(info);
+        if (response.statusCode === 200) {
+            res.cookie("refreshToken", response.data.refreshToken,
+                {
+                    httpOnly: true,
+                    secure: false, // deploy: true
+                    path: "/",
+                    sameSite: "strict",
+                });
+            const { refreshToken, ...info } = response.data;
+            res.status(response.statusCode).json(info);
+        }
+        else {
+            res.status(response.statusCode).json(response);
+        }
     } catch (err) {
         res.status(500).json(err);
     }

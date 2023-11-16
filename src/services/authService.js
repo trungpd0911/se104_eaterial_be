@@ -78,6 +78,7 @@ const login = async (data) => {
                 data: null,
             }
         // sequelize auto checked SQL Injection
+        console.log(1);
 
         const userLogin = await user.findOne({ where: { email } });
         if (!userLogin)
@@ -86,19 +87,22 @@ const login = async (data) => {
                 message: 'Incorrect email or password.',
                 data: null,
             }
+            console.log(2);
         const isPasswordCorrect = await bcrypt.compare(password, userLogin.password);
-        if (!isPasswordCorrect)
+        if (!isPasswordCorrect) {
+            console.log(3);
             return {
                 statusCode: 401,
                 message: 'Incorrect email or password.',
                 data: null,
             }
+        }
         if (userLogin && isPasswordCorrect) {
             const accessToken = generateAccessToken(userLogin);
             const refreshToken = generateRefreshToken(userLogin);
             refreshTokens.push(refreshToken);
-            // console.log(userLogin.dataValues);
             const { password, ...info } = userLogin.dataValues;
+            console.log(4);
             return {
                 statusCode: 200,
                 message: 'Login successfully.',
