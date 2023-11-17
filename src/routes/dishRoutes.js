@@ -18,5 +18,9 @@ router.delete('/images/:imageId', authMiddleware.verifyTokenAdmin, dishControlle
 // get all comment of one dish
 router.get("/:id/comments", dishController.getAllCommentsOfDish);
 
+// filter dish by price 
+router.get('/filter/price', dishController.filterDishByPrice);
+// search dish by name
+router.get('/all/search', dishController.searchDishByName);
 
 module.exports = router;

@@ -21,6 +21,7 @@ const createDish = async (fileImages, data) => {
             dishPrice: dishPrice,
             dishDescription: dishDescription,
             menuId: checkMenuExist.id,
+            totalOrder: 0,
         });
         // take all image url from cloudinary
         if (fileImages) {
@@ -270,6 +271,67 @@ const getAllCommentsOfDish = async (id) => {
     }
 }
 
+const filterDishByPrice = async (minPrice, maxPrice) => {
+    try {
+        minPrice = Number(minPrice);
+        maxPrice = Number(maxPrice);
+        const allDish = await Dish.findAll();
+        if (!allDish)
+            return {
+                statusCode: 404,
+                message: 'no Dish found in db',
+                data: null,
+            }
+        const filterDish = allDish.filter(dish => Number(dish.dishPrice) >= minPrice && Number(dish.dishPrice) <= maxPrice);
+        if (!filterDish)
+            return {
+                statusCode: 404,
+                message: 'Dish not found',
+                data: null,
+            }
+        return {
+            statusCode: 200,
+            message: 'Filter dish by price successfully',
+            data: filterDish,
+        }
+    } catch (error) {
+        return {
+            statusCode: 500,
+            message: error.message,
+            data: null,
+        }
+    }
+}
+
+const searchDishByName = async (keyword) => {
+    try {
+        const allDish = await Dish.findAll();
+        if (!allDish)
+            return {
+                statusCode: 404,
+                message: 'no Dish found in db',
+                data: null,
+            }
+        const filterDish = allDish.filter(dish => dish.dishName.toLowerCase().includes(keyword.toLowerCase()));
+        if (!filterDish)
+            return {
+                statusCode: 404,
+                message: 'no dish found when filter by this name',
+                data: null,
+            }
+        return {
+            statusCode: 200,
+            message: 'Filter dish by name successfully',
+            data: filterDish,
+        }
+    } catch (error) {
+        return {
+            statusCode: 500,
+            message: error.message,
+            data: null,
+        }
+    }
+}
 
 module.exports = {
     createDish,
@@ -279,5 +341,7 @@ module.exports = {
     deleteDish,
     deleteDishImage,
     getAllCommentsOfDish,
+    filterDishByPrice,
+    searchDishByName,
 }
 

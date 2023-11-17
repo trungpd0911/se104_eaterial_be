@@ -14,7 +14,7 @@ let router = express.Router();
 
 let initWebRoutes = (app) => {
     router.use('/auth', authRoute);
-    // done
+    // done1
     router.use('/user', userRoute);
     // done
     router.use('/menu', menuRoute);
@@ -22,6 +22,7 @@ let initWebRoutes = (app) => {
     router.use('/dish', dishRoute);
     // done
     router.use('/comment', commentRoute);
+    // done
     router.use('/employee', employeeRoute);
 
     router.use('/bill', billRoute);
@@ -30,7 +31,7 @@ let initWebRoutes = (app) => {
     router.use('/revenue', revenueRoute);
 
     router.get('/', (req, res) => {
-        res.status(200).json({'message': 'Ping successfully!'});
+        res.status(200).json({ 'message': 'Ping successfully!' });
     })
 
     return app.use("/v1/", router);
