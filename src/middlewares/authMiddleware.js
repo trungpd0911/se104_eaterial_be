@@ -4,7 +4,7 @@ require('dotenv').config();
 // verify token is check if the token is valid
 const verifyToken = (req, res, next) => {
     try {
-        const token = req.headers.token;
+        const token = req.headers.authorization;
         // const refreshToken = req.cookies.refreshToken;
         if (token) {
             const accessToken = token.split(" ")[1];
@@ -43,7 +43,6 @@ const verifyTokenAdminOrCurrentUser = (req, res, next) => {
     });
 }
 
-
 // verify token and authorization is check if the user is the same as the user that is logged in
 const verifyTokenAndAuthorization = (req, res, next) => {
     verifyToken(req, res, () => {
@@ -61,4 +60,3 @@ module.exports = {
     verifyTokenAdminOrCurrentUser,
     verifyTokenAndAuthorization,
 };
-

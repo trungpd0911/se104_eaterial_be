@@ -29,6 +29,10 @@ let initWebRoutes = (app) => {
     router.use('/table', tableRoute);
     router.use('/revenue', revenueRoute);
 
+    router.get('/', (req, res) => {
+        res.status(200).json({'message': 'Ping successfully!'});
+    })
+
     return app.use("/v1/", router);
 };
 

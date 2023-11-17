@@ -10,6 +10,11 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
+        dishAmount: {
+            field: 'dish_amount',
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
         // change name createdAt to created_at and auto generate
         createdAt: {
             field: 'created_at',
