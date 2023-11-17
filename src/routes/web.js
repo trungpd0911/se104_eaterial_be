@@ -8,18 +8,25 @@ const tableRoute = require('./tableRoutes');
 const employeeRoute = require('./employeeRoutes');
 const menuRoute = require('./menuRoutes');
 const revenueRoute = require('./revenueRoutes');
+const commentRoute = require('./commentRoutes');
 
 let router = express.Router();
 
 let initWebRoutes = (app) => {
     router.use('/auth', authRoute);
+    // done
     router.use('/user', userRoute);
+    // done
+    router.use('/menu', menuRoute);
+    // done
     router.use('/dish', dishRoute);
-    router.use('/discount', discountRoute);
-    router.use('/bill', billRoute);
-    router.use('/table', tableRoute);
+    // done
+    router.use('/comment', commentRoute);
     router.use('/employee', employeeRoute);
-    router.use('menu', menuRoute);
+
+    router.use('/bill', billRoute);
+    router.use('/discount', discountRoute);
+    router.use('/table', tableRoute);
     router.use('/revenue', revenueRoute);
 
     router.get('/', (req, res) => {

@@ -1,5 +1,3 @@
-const db = require('../models/index')
-const userModel = db.users;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const userService = require('../services/userService');
@@ -16,8 +14,6 @@ const getUserByID = async (req, res) => {
 }
 
 const updateUser = async (req, res) => {
-    console.log(req.file);
-    console.log(req.body);
     const id = req.params.id;
     const fileData = req.file;
     const response = await userService.updateUser(id, fileData, req.body);

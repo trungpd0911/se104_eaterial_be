@@ -10,15 +10,15 @@ const verifyToken = (req, res, next) => {
             const accessToken = token.split(" ")[1];
             const decoded = jwt.verify(accessToken, process.env.SECRET_ACCESS_KEY);
             if (!decoded) {
-                res.status(401).json("You're not authenticated");
+                return res.status(401).json("You're not authenticated");
             }
             req.user = decoded;
             next();
         } else {
-            res.status(401).json("You're not authenticated");
+            return res.status(401).json("You're not authenticated");
         }
     } catch (err) {
-        res.status(500).json(err);
+        return res.status(500).json(err);
     }
 }
 
@@ -26,7 +26,7 @@ const verifyToken = (req, res, next) => {
 const verifyTokenAdmin = (req, res, next) => {
     verifyToken(req, res, () => {
         if (req.user.isAdmin !== true) {
-            res.status(403).json("Access denied");
+            return res.status(403).json("Access denied");
         }
         next();
     });
@@ -38,8 +38,7 @@ const verifyTokenAdminOrCurrentUser = (req, res, next) => {
         if (req.user.id == req.params.id || req.user.isAdmin === true) {
             next();
         } else {
-            console.log(req.user);
-            res.status(403).json("Access denied");
+            return res.status(403).json("Access denied");
         }
     });
 }
@@ -50,7 +49,7 @@ const verifyTokenAndAuthorization = (req, res, next) => {
         if (req.user.id == req.params.id) {
             next();
         } else {
-            res.status(403).json("Access denied");
+            return res.status(403).json("Access denied");
         }
     });
 }

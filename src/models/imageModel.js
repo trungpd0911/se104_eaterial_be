@@ -1,10 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
     const image = sequelize.define('image', {
-        imageId: {
-            field: 'image_id',
-            type: DataTypes.STRING,
-            allowNull: false
-        },
         imageLink: {
             field: 'image_link',
             type: DataTypes.STRING,
@@ -12,6 +7,11 @@ module.exports = (sequelize, DataTypes) => {
         },
         dishId: {
             field: 'dish_id',
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        imageFilename: {
+            field: 'image_filename',
             type: DataTypes.STRING,
             allowNull: false
         },
