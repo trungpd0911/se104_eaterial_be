@@ -99,13 +99,13 @@ db.table.belongsToMany(db.user, {
 // dish and bill create bill dish
 db.bill.belongsToMany(db.dish, {
     through: db.billDish,
-    foreignKey: 'dishId',
-    otherKey: 'billId'
+    foreignKey: 'billId',
+    otherKey: 'dishId'
 })
 db.dish.belongsToMany(db.bill, {
     through: db.billDish,
-    foreignKey: 'billId',
-    otherKey: 'dishId'
+    foreignKey: 'dishId',
+    otherKey: 'billId'
 })
 
 // menu has many dish 
