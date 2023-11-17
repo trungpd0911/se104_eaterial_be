@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         menuId: {
             field: 'menu_id',
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
             allowNull: false
         },
         // change name createdAt to created_at and auto generate

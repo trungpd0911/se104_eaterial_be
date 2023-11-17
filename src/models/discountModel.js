@@ -2,7 +2,7 @@ module.exports = (sequelize, DataTypes) => {
     const Discount = sequelize.define('discount', {
         adminId: {
             field: 'admin_id',
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
             allowNull: false
         },
         discountValue: {

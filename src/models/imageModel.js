@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         dishId: {
             field: 'dish_id',
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
             allowNull: false
         },
         imageFilename: {

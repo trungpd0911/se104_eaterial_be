@@ -29,16 +29,16 @@ sequelize.authenticate()
 const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
+db.menu = require('./menuModel')(sequelize, DataTypes);
 db.user = require('./userModel')(sequelize, DataTypes);
 db.employee = require('./employeeModel')(sequelize, DataTypes);
-db.dish = require('./dishModel')(sequelize, DataTypes);
-db.menu = require('./menuModel')(sequelize, DataTypes);
 db.discount = require('./discountModel')(sequelize, DataTypes);
+db.dish = require('./dishModel')(sequelize, DataTypes);
+db.bill = require('./billModel')(sequelize, DataTypes);
+db.billDish = require('./billDishModel')(sequelize, DataTypes);
 db.table = require('./tableModel')(sequelize, DataTypes);
 db.tableBooking = require('./tableBookingModel')(sequelize, DataTypes);
 db.comment = require('./commentModel')(sequelize, DataTypes);
-db.bill = require('./billModel')(sequelize, DataTypes);
-db.billDish = require('./billDishModel')(sequelize, DataTypes);
 db.image = require('./imageModel')(sequelize, DataTypes);
 
 // setup for foreign keys
@@ -107,24 +107,6 @@ db.dish.belongsToMany(db.bill, {
     foreignKey: 'billId',
     otherKey: 'dishId'
 })
-
-// db.dish.hasMany(db.billDish, {
-//     foreignKey: 'dish_id',
-//     foreignKeyConstraint: true,
-// })
-// db.billDish.belongsTo(db.dish, {
-//     foreignKey: 'dish_id',
-//     foreignKeyConstraint: true,
-// })
-
-// db.bill.hasMany(db.billDish, {
-//     foreignKey: 'bill_id',
-//     foreignKeyConstraint: true,
-// })
-// db.billDish.belongsTo(db.bill, {
-//     foreignKey: 'bill_id',
-//     foreignKeyConstraint: true,
-// })
 
 // menu has many dish 
 db.menu.hasMany(db.dish, {
