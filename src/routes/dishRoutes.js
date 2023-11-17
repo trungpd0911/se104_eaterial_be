@@ -15,7 +15,8 @@ router.put('/:id', authMiddleware.verifyTokenAdmin, uploadCloudDish.array('image
 router.delete('/:id', authMiddleware.verifyTokenAdmin, dishController.deleteDish);
 // delete dish image 
 router.delete('/images/:imageId', authMiddleware.verifyTokenAdmin, dishController.deleteDishImage);
-
+// get all comment of one dish
+router.get("/:id/comments", dishController.getAllCommentsOfDish);
 
 
 module.exports = router;

@@ -2,6 +2,7 @@ const db = require('../models/index')
 const Dish = db.dish;
 const Menu = db.menu;
 const Image = db.image;
+const Comment = db.comment;
 const cloudinary = require('cloudinary').v2;
 
 const createDish = async (fileImages, data) => {
@@ -239,6 +240,36 @@ const deleteDishImage = async (imageId) => {
 
 }
 
+const getAllCommentsOfDish = async (id) => {
+    try {
+        const dish = await Dish.findOne({ where: { id } });
+        if (!dish)
+            return {
+                statusCode: 404,
+                message: 'Dish not found',
+                data: null,
+            }
+        const comments = Comment.findAll({ where: { dishId: id } });
+        if (!comments)
+            return {
+                statusCode: 404,
+                message: 'Comment of this dish not found',
+                data: null,
+            }
+        return {
+            statusCode: 200,
+            message: 'Get all comments of dish successfully',
+            data: comments,
+        }
+    } catch (error) {
+        return {
+            statusCode: 500,
+            message: error.message,
+            data: null,
+        }
+    }
+}
+
 
 module.exports = {
     createDish,
@@ -247,5 +278,6 @@ module.exports = {
     updateDish,
     deleteDish,
     deleteDishImage,
+    getAllCommentsOfDish,
 }
 

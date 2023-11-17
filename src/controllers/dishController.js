@@ -39,6 +39,12 @@ const deleteDishImage = async (req, res) => {
     res.status(response.statusCode).json(response);
 }
 
+const getAllCommentsOfDish = async (req, res) => {
+    const id = req.params.id;
+    const response = await dishService.getAllCommentsOfDish(id);
+    res.status(response.statusCode).json(response);
+}
+
 module.exports = {
     getAllDishes,
     getDishByID,
@@ -46,4 +52,5 @@ module.exports = {
     updateDish,
     deleteDish,
     deleteDishImage,
+    getAllCommentsOfDish
 }
