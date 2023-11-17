@@ -45,98 +45,96 @@ db.image = require('./imageModel')(sequelize, DataTypes);
 
 // user and employee
 db.user.hasMany(db.employee, {
-    foreignKey: 'user_id',
+    foreignKey: 'userId',
     foreignKeyConstraint: true,
 });
 db.employee.belongsTo(db.user, {
-    foreignKey: 'user_id',
+    foreignKey: 'userId',
     foreignKeyConstraint: true,
 });
 
 // discount and user(admin)
 db.user.hasMany(db.discount, {
-    foreignKey: 'admin_id',
+    foreignKey: 'adminId',
     foreignKeyConstraint: true,
 });
 db.discount.belongsTo(db.user, {
-    foreignKey: 'admin_id',
+    foreignKey: 'adminId',
     foreignKeyConstraint: true,
 });
 // user and bill 
 db.user.hasMany(db.bill, {
-    foreignKey: 'user_id',
+    foreignKey: 'userId',
     foreignKeyConstraint: true,
 });
 db.bill.belongsTo(db.user, {
-    foreignKey: 'user_id',
+    foreignKey: 'userId',
     foreignKeyConstraint: true,
 });
 // user and dish 1-n 1-n create comment
 // Define the many-to-many relationship
 db.user.belongsToMany(db.dish, {
     through: db.comment,
-    foreignKey: 'customer_id', // Use 'foreignKey' instead of 'key'
-    otherKey: 'dish_id',       // Specify the foreign key for the other model
+    foreignKey: 'customerId', // Use 'foreignKey' instead of 'key'
+    otherKey: 'dishId',       // Specify the foreign key for the other model
 });
-
-// If you want to define the inverse relationship, you can do the following
 db.dish.belongsToMany(db.user, {
     through: db.comment,
-    foreignKey: 'dish_id',
-    otherKey: 'customer_id',
+    foreignKey: 'dishId',
+    otherKey: 'customerId',
 });
 
 // user and table create table booking 
 db.user.belongsToMany(db.table, {
     through: db.tableBooking,
-    foreignKey: 'user_id',
-    otherKey: 'table_id',
+    foreignKey: 'userId',
+    otherKey: 'tableId',
 })
 db.table.belongsToMany(db.user, {
     through: db.tableBooking,
-    foreignKey: 'table_id',
-    otherKey: 'user_id',
+    foreignKey: 'tableId',
+    otherKey: 'userId',
 })
 
 // dish and bill create bill dish
 db.dish.belongsToMany(db.bill, {
     through: db.billDish,
-    foreignKey: 'dish_id',
-    otherKey: 'bill_id',
+    foreignKey: 'dishId',
+    otherKey: 'billId',
 })
 db.bill.belongsToMany(db.dish, {
     through: db.billDish,
-    foreignKey: 'bill_id',
-    otherKey: 'dish_id',
+    foreignKey: 'billId',
+    otherKey: 'dishId',
 })
 
 // menu has many dish 
 db.menu.hasMany(db.dish, {
-    foreignKey: 'menu_id',
+    foreignKey: 'menuId',
     foreignKeyConstraint: true,
 });
 db.dish.belongsTo(db.menu, {
-    foreignKey: 'menu_id',
+    foreignKey: 'menuId',
     foreignKeyConstraint: true,
 });
 
 // dish has many discount 
 db.dish.hasMany(db.discount, {
-    foreignKey: 'dish_id',
+    foreignKey: 'dishId',
     foreignKeyConstraint: true,
 });
 db.discount.belongsTo(db.dish, {
-    foreignKey: 'dish_id',
+    foreignKey: 'dishId',
     foreignKeyConstraint: true,
 });
 
 // dish has many image
 db.dish.hasMany(db.image, {
-    foreignKey: 'dish_id',
+    foreignKey: 'dishId',
     foreignKeyConstraint: true,
 });
 db.image.belongsTo(db.dish, {
-    foreignKey: 'dish_id',
+    foreignKey: 'dishId',
     foreignKeyConstraint: true,
 });
 

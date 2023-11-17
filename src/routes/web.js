@@ -8,6 +8,7 @@ const tableRoute = require('./tableRoutes');
 const employeeRoute = require('./employeeRoutes');
 const menuRoute = require('./menuRoutes');
 const revenueRoute = require('./revenueRoutes');
+const commentRoute = require('./commentRoutes');
 
 let router = express.Router();
 
@@ -16,8 +17,11 @@ let initWebRoutes = (app) => {
     // done
     router.use('/user', userRoute);
     // done
-    router.use('/dish', dishRoute);
     router.use('/menu', menuRoute);
+    // done
+    router.use('/dish', dishRoute);
+    // done
+    router.use('/comment', commentRoute);
     router.use('/employee', employeeRoute);
 
     router.use('/bill', billRoute);
