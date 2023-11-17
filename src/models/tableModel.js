@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
     const Table = sequelize.define('table', {
-        tablePossition: {
+        tablePosition: {
             field: 'table_possition',
             type: DataTypes.STRING,
             allowNull: false

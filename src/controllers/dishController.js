@@ -45,6 +45,19 @@ const getAllCommentsOfDish = async (req, res) => {
     res.status(response.statusCode).json(response);
 }
 
+const filterDishByPrice = async (req, res) => {
+    const { minPrice, maxPrice } = req.query;
+    const response = await dishService.filterDishByPrice(minPrice, maxPrice);
+    res.status(response.statusCode).json(response);
+}
+
+const searchDishByName = async (req, res) => {
+    const keyword = req.query.keyword;
+    const response = await dishService.searchDishByName(keyword);
+    res.status(response.statusCode).json(response);
+}
+
+
 module.exports = {
     getAllDishes,
     getDishByID,
@@ -52,5 +65,7 @@ module.exports = {
     updateDish,
     deleteDish,
     deleteDishImage,
-    getAllCommentsOfDish
+    getAllCommentsOfDish,
+    filterDishByPrice,
+    searchDishByName,
 }
