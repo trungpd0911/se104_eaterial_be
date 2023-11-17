@@ -20,6 +20,12 @@ const createComment = async (userId, data) => {
                 data: null,
             }
         // create comment
+        console.log({
+            commentContent: content,
+            rating: rating,
+            customerId: userId,
+            dishId: dishId,
+        })
         await Comment.create({
             commentContent: content,
             rating: rating,
@@ -32,6 +38,7 @@ const createComment = async (userId, data) => {
             data: null,
         }
     } catch (error) {
+        console.log(error)
         return {
             statusCode: 500,
             message: error.message,

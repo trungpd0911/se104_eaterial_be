@@ -2,7 +2,7 @@ module.exports = (sequelize, DataTypes) => {
     const Bill = sequelize.define('bill', {
         userId: {
             field: 'user_id',
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
             allowNull: false
         },
         billDate: {

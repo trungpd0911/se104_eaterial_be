@@ -2,12 +2,12 @@ module.exports = (sequelize, DataTypes) => {
     const BillDish = sequelize.define('bill_dish', {
         billId: {
             field: 'bill_id',
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
             allowNull: false
         },
         dishId: {
             field: 'dish_id',
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
             allowNull: false
         },
         dishAmount: {
