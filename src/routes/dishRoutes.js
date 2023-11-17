@@ -18,17 +18,4 @@ router.delete('/images/:imageId', authMiddleware.verifyTokenAdmin, dishControlle
 
 
 
-
-// add comment  
-router.post('/:id/comments', authMiddleware.verifyToken, dishController.addComment);
-// get all comments
-router.get('/:id/comments', dishController.getAllComments);
-// get comment by id
-router.get('/:id/comments/:commentId', dishController.getCommentByID);
-// update comment
-router.put('/:id/comments/:commentId', authMiddleware.verifyToken, dishController.updateComment);
-// delete comment
-router.delete('/:id/comments/:commentId', authMiddleware.verifyToken, dishController.deleteComment);
-
-
 module.exports = router;

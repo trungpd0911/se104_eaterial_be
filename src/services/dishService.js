@@ -239,21 +239,6 @@ const deleteDishImage = async (imageId) => {
 
 }
 
-const addComment = async (id, data) => {
-}
-
-const getAllComments = async (id) => {
-}
-
-const getCommentByID = async (id, commentId) => {
-}
-
-const updateComment = async (id, commentId, data) => {
-}
-
-const deleteComment = async (id, commentId) => {
-}
-
 
 module.exports = {
     createDish,
@@ -262,10 +247,5 @@ module.exports = {
     updateDish,
     deleteDish,
     deleteDishImage,
-    addComment,
-    getAllComments,
-    getCommentByID,
-    updateComment,
-    deleteComment,
 }
 

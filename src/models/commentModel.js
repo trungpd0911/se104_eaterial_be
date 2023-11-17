@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         rating: {
             field: 'rating',
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
             allowNull: false
         },
         customerId: {
