@@ -23,6 +23,7 @@ const register = async (body) => {
             }
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
+        console.log(await bcrypt.hash("admin", salt));
 
         await user.create({
             username: username,
