@@ -6,34 +6,15 @@ const actions = {
     CANCEL_TABLE: 'CANCEL_TABLE'
 }
 
-// Send message to the client that sent request
-const sendToClient = (wsServer, ws, res) => {
-    wsServer.clients.forEach(function (client) {
-        if (client.readyState === WebSocket.OPEN && ws.user.id === client.user.id) {
-            client.send(JSON.stringify(res));
-        }
-    });
-}
-
-// Send message to all other clients
-const broadcastResponse = (wsServer, ws, res) => {
-    wsServer.clients.forEach(function (client) {
-        if (client.readyState === WebSocket.OPEN && ws.user.id !== client.user.id) {
-            client.send(JSON.stringify(res));
-        }
-    });
-}
-
 // Handle sending messages to all clients
 const sendResponse = (wsServer, ws, res) => {
-    if (res.toClient) {
-        console.log(res.toClient);
-        sendToClient(wsServer, ws, res.toClient);
-    }
-    if (res.broadcast) {
-        console.log(res.broadcast);
-        broadcastResponse(wsServer, ws, res.broadcast);
-    }
+    wsServer.clients.forEach(function (client) {
+        if (client.readyState === WebSocket.OPEN && ws.user.id === client.user.id) {
+            client.send(JSON.stringify(res.toClient));
+        } else if (client.readyState === WebSocket.OPEN && ws.user.id !== client.user.id) {
+            client.send(JSON.stringify(res.broadcast));
+        }
+    });
 }
 
 const handleMessage = async function (wsServer, ws, message) {
@@ -42,26 +23,28 @@ const handleMessage = async function (wsServer, ws, message) {
         let res;
 
         switch (message.action) {
-
             case actions.BOOK_TABLE:
-                res = await tableBookingService.bookTable(ws.user.id, message.table_id);
+                res = await tableBookingService.bookTable(ws.user.id, message.table_id, message.booking_time);
                 sendResponse(wsServer, ws, res);
                 break;
 
             case actions.CANCEL_TABLE:
-                res = await tableBookingService.cancelTable();
+                res = await tableBookingService.cancelTable(ws.user.id, message.table_id);
                 sendResponse(wsServer, ws, res);
                 break;
 
             default:
-                sendToClient(wsServer, ws, JSON.stringify({
-                    message: 'Invalid action'
+                sendResponse(wsServer, ws, JSON.stringify({
+                    toClient: {
+                        message: 'Invalid action'
+                    }
                 }));
         }   
     } catch(error) {
-        console.log(error)
-        sendToClient(wsServer, ws, JSON.stringify({
-            message: error.message
+        sendResponse(wsServer, ws, JSON.stringify({
+            toClient: {
+                message: error.message
+            }
         }));
     }
 }

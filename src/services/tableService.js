@@ -1,5 +1,7 @@
 const db = require('../models/index');
+const userModel = require('../models/userModel');
 const tableModel = db.table;
+// const tableBookingModel = db.tableBooking
 
 const createTable = async (createTableReq) => {
     try {
@@ -19,16 +21,58 @@ const createTable = async (createTableReq) => {
     }
 }
 
-const deleteTable = async () => {
-
+const deleteTable = async (tableId) => {
+    try {
+        await tableModel.destroy({
+            where: {
+                id: tableId
+            }
+        })
+        return {
+            status: 200,
+            message: "Delete table successfully"
+        }
+    } catch (error) {
+        return {
+            status: 500,
+            message: error.message
+        }
+    }
 }
 
 const filterTables = async () => {
 
 }
 
-const getUserTable = async () => {
-
+const getUserTable = async (userId) => {
+    try {
+        const bookedTable = await tableModel.findAll({
+            attributes: [
+                'id',
+                'tablePosition',
+                'tableStatus'
+            ],
+            include: [{
+                model: userModel,
+                through: {
+                    attributes: ['bookingTime']
+                },
+                where: {
+                    userId: userId
+                }
+            }]
+        });
+        return {
+            status: 200,
+            message: "Create table successfully",
+            data: bookedTable
+        }
+    } catch (error) {
+        return {
+            status: 500,
+            message: error.message
+        }
+    }
 }
 
 const getAllTables = async () => {

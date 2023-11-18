@@ -1,5 +1,11 @@
 module.exports = (sequelize, DataTypes) => {
     const Table = sequelize.define('table', {
+        id: {
+            allowNull: false,
+            autoIncrement: true,
+            primaryKey: true,
+            type: DataTypes.INTEGER
+        },
         tablePosition: {
             field: 'table_position',
             type: DataTypes.STRING,
@@ -7,11 +13,6 @@ module.exports = (sequelize, DataTypes) => {
         },
         tableStatus: {
             field: 'table_status',
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        tableType: {
-            field: 'table_type',
             type: DataTypes.STRING,
             allowNull: false
         },

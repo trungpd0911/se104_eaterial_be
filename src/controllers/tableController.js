@@ -8,7 +8,9 @@ const createTable = async (req, res) => {
 }
 
 const deleteTable = async (req, res) => {
-
+    let tableId = req.params.id;
+    const response = await tableService.deleteTable(tableId);
+    res.status(response.status).json(response);
 }
 
 const filterTables = async (req, res) => {
@@ -16,7 +18,9 @@ const filterTables = async (req, res) => {
 }
 
 const getUserTable = async (req, res) => {
-
+    let tableId = req.user.id;
+    const response = await tableService.getUserTable(tableId);
+    res.status(response.status).json(response);
 }
 
 const getAllTables = async (req, res) => {

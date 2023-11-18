@@ -2,17 +2,17 @@ module.exports = (sequelize, DataTypes) => {
     const TableBooking = sequelize.define('table_booking', {
         userId: {
             field: 'user_id',
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
             allowNull: false
         },
         tableId: {
             field: 'table_id',
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
             allowNull: false
         },
         bookingTime: {
             field: 'booking_time',
-            type: DataTypes.STRING,
+            type: DataTypes.DATE,
             allowNull: true
         },
         // change name createdAt to created_at and auto generate

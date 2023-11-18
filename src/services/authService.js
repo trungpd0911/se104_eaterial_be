@@ -30,7 +30,6 @@ const register = async (body) => {
             email: email,
             password: hashedPassword
         });
-        console.log('User created successfully.')
         return {
             statusCode: 201,
             message: 'User created successfully.',
@@ -79,7 +78,6 @@ const login = async (data) => {
                 data: null,
             }
         // sequelize auto checked SQL Injection
-        console.log(1);
 
         const userLogin = await user.findOne({ where: { email } });
         if (!userLogin)
@@ -88,7 +86,6 @@ const login = async (data) => {
                 message: 'Incorrect email or password.',
                 data: null,
             }
-            console.log(2);
         const isPasswordCorrect = await bcrypt.compare(password, userLogin.password);
         if (!isPasswordCorrect) {
             console.log(3);
@@ -103,7 +100,6 @@ const login = async (data) => {
             const refreshToken = generateRefreshToken(userLogin);
             refreshTokens.push(refreshToken);
             const { password, ...info } = userLogin.dataValues;
-            console.log(4);
             return {
                 statusCode: 200,
                 message: 'Login successfully.',

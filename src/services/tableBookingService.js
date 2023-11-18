@@ -1,98 +1,125 @@
-let tables = [
-    {
-        "id": 1,
-        "status": "Occupied"
-    },
-    {
-        "id": 2,
-        "status": "Available"
-    },
-    {
-        "id": 3,
-        "status": "Available"
-    },
-    {
-        "id": 4,
-        "status": "Available"
-    },
-    {
-        "id": 5,
-        "status": "Available"
-    },
-    {
-        "id": 6,
-        "status": "Available"
-    },
-    {
-        "id": 7,
-        "status": "Available"
-    },
-    {
-        "id": 8,
-        "status": "Available"
-    },
-    {
-        "id": 9,
-        "status": "Available"
-    }
-];
-
 const db = require('../models/index');
 const tableBookingModel = db.tableBooking;
 const tableModel = db.table;
 
-const bookTable = async (userId, tableId) => {
-    // for (let table of tables) {
-    //     if (table['id'] == tableId) {
-    //         if (table['status'] === 'Available') {
-    //             table['status'] = 'Occupied';
-    //             return {
-    //                 toClient: {
-    //                     message: "Book table successfully",
-    //                     table_id: tableId
-    //                 },
-    //                 broadcast: {
-    //                     message: "A table is booked",
-    //                     table_id: tableId
-    //                 }
-    //             }
-    //         } else {
-    //             return {
-    //                 toClient: {
-    //                     message: "Table is occupied"
-    //                 },
-    //                 broadcast: null
-    //             }
-    //         }
-    //     }
-    // }
-
-    
-    
-    // console.log()
-    let tables = await tableBookingModel.findAll({
+// Create a tableBooking and set the tableStatus to Occupied
+const bookTable = async (userId, tableId, bookingTime) => {
+    // Check if the table exists
+    let table = await tableModel.findOne({
         where: {
-            userId: userId,
+            id: tableId
+        }
+    })
+    if (!table) {
+        return {
+            toClient: {
+                message: "Table not found"
+            },
+            broadcast: null
+        }
+    }
+
+    // Check if the table was booked
+    let tableBooking = await tableBookingModel.findOne({
+        where: {
             tableId: tableId
         }
     });
-    console.log(tables);
 
+    // if not, book the table
+    if (!tableBooking) {
+        let newTableBooking = await tableBookingModel.create({
+            userId: userId,
+            tableId: tableId,
+            bookingTime: bookingTime
+        })
+
+        // Set status of table to Occupied
+        table.tableStatus = 'Occupied';
+        table.save();
+
+        return {
+            toClient: {
+                message: "Book table successfully",
+                table_id: newTableBooking.tableId
+            },
+            broadcast: {
+                message: "A table booked",
+                table_id: newTableBooking.tableId
+            }
+        }
+    }
+
+    // Table was booked
     return {
         toClient: {
-            message: "Table not found"
+            message: "Table is occupied"
         },
         broadcast: null
     }
 }
 
-const cancelTable = async () => {
+// Remove a tableBooking and set tableStatus to Available
+const cancelTable = async (userId, tableId) => {
+    // Check if the table exists
+    let table = await tableModel.findOne({
+        where: {
+            id: tableId
+        }
+    })
+    if (!table) {
+        return {
+            toClient: {
+                message: "Table not found"
+            },
+            broadcast: null
+        }
+    }
 
+    // Check if the table was booked
+    let tableBooking = await tableBookingModel.findOne({
+        where: {
+            tableId: tableId
+        }
+    });
+    if (!tableBooking) {
+        return {
+            toClient: {
+                message: "Table has not been booked yet"
+            },
+            broadcast: null
+        }
+    }
+
+    // If the table was booked by another user
+    if (tableBooking.userId != userId) {
+        return {
+            toClient: {
+                message: "Someone booked this table"
+            },
+            broadcast: null
+        }
+    }
+
+    // Set the status to Available
+    table.tableStatus = 'Available';
+    table.save();
+    tableBookingModel.destroy({
+        where: {
+            tableId: tableId
+        }
+    })
+
+    return {
+        toClient: {
+            message: "Cancle table booking successfully",
+            table_id: table.id
+        },
+        broadcast: null
+    }
 }
 
 module.exports = {
-    // getAllTables,
-    // filterTables,
     bookTable,
     cancelTable
 }

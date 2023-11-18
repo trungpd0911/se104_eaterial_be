@@ -310,11 +310,10 @@ const getAllDishesOfBill = async (userId, billId) => {
                     model: billModel,
                     attributes: ['id'],
                     through: {
-                        attributes: ['billId', 'dishAmount']
+                        attributes: ['billId']
                     },
                     where: {
-                        userId: userId,
-                        id: billId
+                        userId: userId
                     }
                 }]
             });
