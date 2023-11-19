@@ -1,7 +1,17 @@
 module.exports = (sequelize, DataTypes) => {
     const Employee = sequelize.define('employee', {
+        employeeName: {
+            field: 'employee_name',
+            type: DataTypes.STRING,
+            allowNull: false
+        },
         employeePossition: {
             field: 'employee_possition',
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        staffCode: {
+            field: 'staff_code',
             type: DataTypes.STRING,
             allowNull: false
         },
@@ -22,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
         phoneNumber: {
             field: 'phone_number',
             type: DataTypes.STRING,
-            allowNull: true
+            allowNull: false
         },
         // change name createdAt to created_at and auto generate
         createdAt: {
