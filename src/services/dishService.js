@@ -271,10 +271,15 @@ const getAllCommentsOfDish = async (id) => {
     }
 }
 
-const filterDishByPrice = async (minPrice, maxPrice) => {
+const filterDishByPriceAndMenuName = async (minPrice, maxPrice, menuId) => {
     try {
-        minPrice = Number(minPrice);
-        maxPrice = Number(maxPrice);
+        // one of (minPrice, maxPrie) and menuId may be null
+        if (!minPrice && !maxPrice && !menuId)
+            return {
+                statusCode: 400,
+                message: 'Missing data',
+                data: null,
+            }
         const allDish = await Dish.findAll();
         if (!allDish)
             return {
@@ -282,16 +287,28 @@ const filterDishByPrice = async (minPrice, maxPrice) => {
                 message: 'no Dish found in db',
                 data: null,
             }
-        const filterDish = allDish.filter(dish => Number(dish.dishPrice) >= minPrice && Number(dish.dishPrice) <= maxPrice);
+        if (minPrice && maxPrice && menuId) {
+            minPrice = Number(minPrice);
+            maxPrice = Number(maxPrice);
+            filterDish = allDish.filter(dish => dish.dishPrice >= minPrice && dish.dishPrice <= maxPrice && dish.menuId == menuId);
+        }
+        else if (minPrice && maxPrice && !menuId) {
+            minPrice = Number(minPrice);
+            maxPrice = Number(maxPrice);
+            filterDish = allDish.filter(dish => dish.dishPrice >= minPrice && dish.dishPrice <= maxPrice);
+        }
+        else if (!minPrice && !maxPrice && menuId) {
+            filterDish = allDish.filter(dish => dish.menuId == menuId);
+        }
         if (!filterDish)
             return {
                 statusCode: 404,
-                message: 'Dish not found',
+                message: 'no dish found when filter by this condition',
                 data: null,
             }
         return {
             statusCode: 200,
-            message: 'Filter dish by price successfully',
+            message: 'Filter dish successfully',
             data: filterDish,
         }
     } catch (error) {
@@ -341,7 +358,7 @@ module.exports = {
     deleteDish,
     deleteDishImage,
     getAllCommentsOfDish,
-    filterDishByPrice,
+    filterDishByPriceAndMenuName,
     searchDishByName,
 }
 
