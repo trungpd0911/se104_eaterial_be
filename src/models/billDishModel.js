@@ -29,7 +29,6 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
         }
-
     });
 
     return BillDish;

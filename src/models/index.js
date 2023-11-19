@@ -89,19 +89,19 @@ db.user.belongsToMany(db.table, {
     through: db.tableBooking,
     foreignKey: 'userId',
     otherKey: 'tableId',
-})
+});
 db.table.belongsToMany(db.user, {
     through: db.tableBooking,
     foreignKey: 'tableId',
     otherKey: 'userId',
-})
+});
 
 // dish and bill create bill dish
 db.bill.belongsToMany(db.dish, {
     through: db.billDish,
     foreignKey: 'billId',
     otherKey: 'dishId'
-})
+});
 db.dish.belongsToMany(db.bill, {
     through: db.billDish,
     foreignKey: 'dishId',

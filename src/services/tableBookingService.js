@@ -2,6 +2,7 @@ const db = require('../models/index');
 const tableBookingModel = db.tableBooking;
 const tableModel = db.table;
 
+
 // Create a tableBooking and set the tableStatus to Occupied
 const bookTable = async (userId, tableId, bookingTime) => {
     // Check if the table exists
@@ -25,14 +26,39 @@ const bookTable = async (userId, tableId, bookingTime) => {
             tableId: tableId
         }
     });
+    if (tableBooking) {
+        return {
+            toClient: {
+                message: "Table is occupied"
+            },
+            broadcast: null
+        }
+    }
+
+    // check if the user has booked a table
+    let userTableBooking = await tableBookingModel.findOne({
+        where: {
+            userId: userId
+        }
+    });
+    if (userTableBooking) {
+        return {
+            toClient: {
+                message: "You have booked a table"
+            },
+            broadcast: null
+        }
+    }
 
     // if not, book the table
     if (!tableBooking) {
         let newTableBooking = await tableBookingModel.create({
             userId: userId,
             tableId: tableId,
-            bookingTime: bookingTime
-        })
+            bookingTime: new Date(bookingTime)
+        });
+        console.log(new Date(bookingTime));
+
 
         // Set status of table to Occupied
         table.tableStatus = 'Occupied';
@@ -51,12 +77,7 @@ const bookTable = async (userId, tableId, bookingTime) => {
     }
 
     // Table was booked
-    return {
-        toClient: {
-            message: "Table is occupied"
-        },
-        broadcast: null
-    }
+    
 }
 
 // Remove a tableBooking and set tableStatus to Available

@@ -25,7 +25,7 @@ const wsServer = new WebSocketServer({
     server: app.listen(port, () => {
         console.log(`App is running at the port ${port}`);
     }), 
-    path: '/booking-table'
+    path: '/table-booking'
 });
 
 routeTableBooking(wsServer);

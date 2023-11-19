@@ -8,6 +8,7 @@ const routeTableBooking = (wsServer) => {
     
     wsServer.on('connection', (ws, req) => {
         authMiddleware.verifyTokenWs(ws, req);
+        console.log("OK");
         
         ws.on('open', () => {
             console.log("Connect successfully");
