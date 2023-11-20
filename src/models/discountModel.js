@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             unique: true
         },
-        discountDecription: {
+        discountDescription: {
             field: 'discount_description',
             type: DataTypes.STRING,
             allowNull: false

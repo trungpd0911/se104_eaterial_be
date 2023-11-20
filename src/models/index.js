@@ -121,13 +121,13 @@ db.dish.belongsTo(db.menu, {
     foreignKeyConstraint: true,
 });
 
-// bill has one discount 
-db.bill.hasOne(db.discount, {
-    foreignKey: 'billId',
+// bill has one discount, discount belongs to many bill
+db.bill.belongsTo(db.discount, {
+    foreignKey: 'discountId',
     foreignKeyConstraint: true,
 });
-db.discount.belongsTo(db.bill, {
-    foreignKey: 'billId',
+db.discount.hasMany(db.bill, {
+    foreignKey: 'discountId',
     foreignKeyConstraint: true,
 });
 

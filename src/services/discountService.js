@@ -111,19 +111,33 @@ const getAllUserDiscounts = async (userId) => {
     try {
         console.log(userId)
         // get all discount of user using userDiscount table
-        const discounts = await discountModel.findAll({
+        // const discounts = await discountModel.findAll({
+        //     include: [{
+        //         through: {
+        //             model: userDiscountModel,
+        //             attributes: [],
+        //             where: {
+        //                 userId: userId
+        //             }
+        //         },
+        //         model: userModel,
+        //         attributes: ['id'],
+        //         where: {
+        //             id: userId
+        //         }
+        //     }]
+        // });
+
+        const discounts = await userModel.findOne({
+            where: {
+                id: userId
+            },
+            attributes: [],
             include: [{
+                model: discountModel,
                 through: {
                     model: userDiscountModel,
-                    attributes: [],
-                    where: {
-                        userId: userId
-                    }
-                },
-                model: userModel,
-                attributes: ['id'],
-                where: {
-                    id: userId
+                    attributes: []
                 }
             }]
         });
