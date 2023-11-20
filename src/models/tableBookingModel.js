@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         bookingTime: {
             field: 'booking_time',
-            type: DataTypes.STRING,
+            type: DataTypes.DATE,
             allowNull: true
         },
         // change name createdAt to created_at and auto generate

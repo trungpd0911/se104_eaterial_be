@@ -61,7 +61,8 @@ const removeDishFromCart = async (req, res) => {
 // Users checkout unpaid bill
 const checkout = async (req, res) => {
     const userId = req.params.id;
-    const response = await billService.checkout(userId);
+    const discountCode = req.body.discountCode;
+    const response = await billService.checkout(userId, discountCode);
     res.status(response.status).json(response);
 }
 

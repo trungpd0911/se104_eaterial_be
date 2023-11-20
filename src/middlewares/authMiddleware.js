@@ -54,9 +54,23 @@ const verifyTokenAndAuthorization = (req, res, next) => {
     });
 }
 
+const verifyTokenWs = (ws, req) => {
+    try {
+        const accessToken = req.url.split('access_token=')[1].split('&')[0];
+        const decoded = jwt.verify(accessToken, process.env.SECRET_ACCESS_KEY);
+        if (!decoded) {
+            ws.close(4001, 'Unauthorized');
+        }
+        return ws.user = decoded;
+    } catch (err) {
+        ws.close(4001, 'Unauthorized');
+    }
+}
+
 module.exports = {
     verifyToken,
     verifyTokenAdmin,
     verifyTokenAdminOrCurrentUser,
     verifyTokenAndAuthorization,
+    verifyTokenWs
 };

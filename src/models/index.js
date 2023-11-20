@@ -40,6 +40,7 @@ db.table = require('./tableModel')(sequelize, DataTypes);
 db.tableBooking = require('./tableBookingModel')(sequelize, DataTypes);
 db.comment = require('./commentModel')(sequelize, DataTypes);
 db.image = require('./imageModel')(sequelize, DataTypes);
+db.userDiscount = require('./userDiscountModel')(sequelize, DataTypes);
 
 // setup for foreign keys
 
@@ -53,14 +54,16 @@ db.employee.belongsTo(db.user, {
     foreignKeyConstraint: true,
 });
 
-// discount and user(admin)
-db.user.hasMany(db.discount, {
-    foreignKey: 'adminId',
-    foreignKeyConstraint: true,
+// discount and user (user own discount)
+db.user.belongsToMany(db.discount, {
+    through: db.userDiscount,
+    foreignKey: 'userId',
+    otherKey: 'discountId'
 });
-db.discount.belongsTo(db.user, {
-    foreignKey: 'adminId',
-    foreignKeyConstraint: true,
+db.discount.belongsToMany(db.user, {
+    through: db.userDiscount,
+    foreignKey: 'userId',
+    otherKey: 'discountId'
 });
 // user and bill 
 db.user.hasMany(db.bill, {
@@ -89,19 +92,19 @@ db.user.belongsToMany(db.table, {
     through: db.tableBooking,
     foreignKey: 'userId',
     otherKey: 'tableId',
-})
+});
 db.table.belongsToMany(db.user, {
     through: db.tableBooking,
     foreignKey: 'tableId',
     otherKey: 'userId',
-})
+});
 
 // dish and bill create bill dish
 db.bill.belongsToMany(db.dish, {
     through: db.billDish,
     foreignKey: 'billId',
     otherKey: 'dishId'
-})
+});
 db.dish.belongsToMany(db.bill, {
     through: db.billDish,
     foreignKey: 'dishId',
@@ -118,13 +121,13 @@ db.dish.belongsTo(db.menu, {
     foreignKeyConstraint: true,
 });
 
-// dish has many discount 
-db.dish.hasMany(db.discount, {
-    foreignKey: 'dishId',
+// bill has one discount, discount belongs to many bill
+db.bill.belongsTo(db.discount, {
+    foreignKey: 'discountId',
     foreignKeyConstraint: true,
 });
-db.discount.belongsTo(db.dish, {
-    foreignKey: 'dishId',
+db.discount.hasMany(db.bill, {
+    foreignKey: 'discountId',
     foreignKeyConstraint: true,
 });
 

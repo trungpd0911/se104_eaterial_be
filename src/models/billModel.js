@@ -12,11 +12,17 @@ module.exports = (sequelize, DataTypes) => {
         },
         totalMoney: {
             field: 'total_money',
-            type: DataTypes.STRING,
-            allowNull: true
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            defaultValue: 0
         },
         billPayed: {
             field: 'bill_payed',
+            type: DataTypes.STRING,
+            allowNull: true
+        },
+        discountId: {
+            field: 'discount_id',
             type: DataTypes.STRING,
             allowNull: true
         },

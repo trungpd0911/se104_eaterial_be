@@ -3,6 +3,8 @@ const billModel = db.bill;
 const userModel = db.user;
 const dishModel = db.dish;
 const billDishModel = db.billDish;
+const discountModel = db.discount;
+const userDiscountModel = db.userDiscount;
 const { Sequelize } = require('sequelize');
 
 const getAllBills = async () => {
@@ -207,7 +209,7 @@ const addDishToCart = async (addDishToCartReq) => {
         }
         // Else create a new unpaid bill of that user and add the dish 
         else {
-            const newBill = await billModel.create({
+            unpaidBill = await billModel.create({
                 userId: userId,
                 billDate: Date(),
                 totalMoney: 0,
@@ -215,11 +217,20 @@ const addDishToCart = async (addDishToCartReq) => {
             })
             
             currBillDish = await billDishModel.create({
-                billId: newBill.id,
+                billId: unpaidBill.id,
                 dishId: dishId,
                 dishAmount: 1
             })
         }
+
+        // add dish price to total money of bill
+        const dish = await dishModel.findOne({
+            where: {
+                id: dishId
+            }
+        })
+        unpaidBill.totalMoney += dish.dishPrice;
+        unpaidBill.save();
         
         return {
             status: 200,
@@ -298,24 +309,22 @@ const getAllDishesOfBill = async (userId, billId) => {
                 message: "Wrong bill ID"
             }
         } else {
-            const dishList = await dishModel.findAll({
-                where: {},
-                attributes: [
-                    'id',
-                    'dishName',
-                    'dishPrice',
-                    'dishDescription'
-                ],
+            const dishList = await billModel.findOne({
+                where: {
+                    id: billId,
+                    userId: userId
+                },
                 include: [{
-                    model: billModel,
-                    attributes: ['id'],
-                    through: {
-                        attributes: ['billId', 'dishAmount']
-                    },
-                    where: {
-                        userId: userId,
-                        id: billId
-                    }
+                    model: dishModel,
+                    require: true,
+                    attributes: [
+                        'dishName',
+                        'dishPrice',
+                        'dishDescription',
+                        'totalOrder',
+                        'menuId',
+                        'discountId'
+                    ]
                 }]
             });
 
@@ -359,8 +368,9 @@ const getDishesInCart = async (userId) => {
     }
 }
 
-const checkout = async (userId) => {
+const checkout = async (userId, discountCode) => {
     try {
+        // Check if user have unpaid bill
         let unpaidBill = await billModel.findOne({
             where: {
                 userId: userId,
@@ -375,6 +385,71 @@ const checkout = async (userId) => {
             }
         }
 
+        // Handle discount
+        if (discountCode) {
+            // Check discount owner and Apply discount by discount code
+            let discount = await discountModel.findOne({
+                where: {
+                    discountCode: discountCode
+                }
+            });
+
+            if (discount) {
+                // check discount owner
+                let userDiscount = await userDiscountModel.findOne({
+                    where: {
+                        userId: userId,
+                        discountId: discount.id
+                    }
+                });
+
+                if (userDiscount && !userDiscount.used) {
+                    // Check checkout day is in discount time
+                    let today = new Date();
+                    let discountFromDay = new Date(discount.startDay);
+                    let discountToDay = new Date(discount.endDay);
+                    discountToDay = new Date(discountToDay.getFullYear(), discountToDay.getMonth(), discountToDay.getDate() + 1);
+
+                    if (today < discountFromDay || today > discountToDay) {
+                        return {
+                            status: 400,
+                            message: "Discount is not available"
+                        }
+                    }
+
+                    // Apply discount
+                    unpaidBill.totalMoney = unpaidBill.totalMoney * (100 - discount.discountValue) / 100;
+                    unpaidBill.discountId = discount.id;
+                    userDiscount.used = true;
+                    userDiscount.save();
+                } else {
+                    return {
+                        status: 400,
+                        message: "Discount is not available"
+                    }
+                }
+            }
+        }
+
+        // Set totalOrder of dishes
+        let dishes = await billDishModel.findAll({
+            where: {
+                billId: unpaidBill.id
+            }
+        });
+
+        for (let i = 0; i < dishes.length; i++) {
+            let dish = await dishModel.findOne({
+                where: {
+                    id: dishes[i].dishId
+                }
+            });
+
+            dish.totalOrder += dishes[i].dishAmount;
+            dish.save();
+        }
+
+        // Checkout the bill
         unpaidBill.billPayed = true;
         unpaidBill.save();
 

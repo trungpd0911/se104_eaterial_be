@@ -1,20 +1,21 @@
+// user - discount model
 module.exports = (sequelize, DataTypes) => {
-    const Table = sequelize.define('table', {
-        id: {
+    const UserDiscount = sequelize.define('user_discount', {
+        userId: {
+            field: 'user_id',
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        discountId: {
+            field: 'discount_id',
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        used: {
+            field: 'used',
+            type: DataTypes.BOOLEAN,
             allowNull: false,
-            autoIncrement: true,
-            primaryKey: true,
-            type: DataTypes.INTEGER
-        },
-        tablePosition: {
-            field: 'table_position',
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        tableStatus: {
-            field: 'table_status',
-            type: DataTypes.STRING,
-            allowNull: false
+            defaultValue: false
         },
         // change name createdAt to created_at and auto generate
         createdAt: {
@@ -33,5 +34,5 @@ module.exports = (sequelize, DataTypes) => {
 
     });
 
-    return Table;
+    return UserDiscount;
 }
