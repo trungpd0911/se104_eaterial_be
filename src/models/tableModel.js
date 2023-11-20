@@ -1,45 +1,20 @@
 module.exports = (sequelize, DataTypes) => {
-    const User = sequelize.define('user', {
+    const Table = sequelize.define('table', {
         id: {
             allowNull: false,
             autoIncrement: true,
             primaryKey: true,
             type: DataTypes.INTEGER
         },
-        username: {
+        tablePosition: {
+            field: 'table_position',
             type: DataTypes.STRING,
             allowNull: false
         },
-        email: {
+        tableStatus: {
+            field: 'table_status',
             type: DataTypes.STRING,
             allowNull: false
-        },
-        password: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        gender: {
-            type: DataTypes.STRING,
-            allowNull: true
-        },
-        address: {
-            type: DataTypes.STRING,
-            allowNull: true
-        },
-        phoneNumber: {
-            field: 'phone_number',
-            type: DataTypes.STRING,
-            allowNull: true
-        },
-        avatar: {
-            type: DataTypes.STRING,
-            allowNull: true
-        },
-        isAdmin: {
-            field: 'is_admin',
-            type: DataTypes.BOOLEAN,
-            allowNull: false,
-            defaultValue: false
         },
         // change name createdAt to created_at and auto generate
         createdAt: {
@@ -58,5 +33,5 @@ module.exports = (sequelize, DataTypes) => {
 
     });
 
-    return User;
+    return Table;
 }

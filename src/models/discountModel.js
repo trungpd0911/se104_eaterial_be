@@ -1,45 +1,30 @@
 module.exports = (sequelize, DataTypes) => {
-    const User = sequelize.define('user', {
-        id: {
+    const Discount = sequelize.define('discount', {
+        discountCode: {
+            field: 'discount_code',
+            type: DataTypes.STRING,
             allowNull: false,
-            autoIncrement: true,
-            primaryKey: true,
-            type: DataTypes.INTEGER
+            unique: true
         },
-        username: {
+        discountDescription: {
+            field: 'discount_description',
             type: DataTypes.STRING,
             allowNull: false
         },
-        email: {
+        discountPercent: {
+            field: 'discount_percent',
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        startDay: {
+            field: 'start_day',
             type: DataTypes.STRING,
             allowNull: false
         },
-        password: {
+        endDay: {
+            field: 'end_day',
             type: DataTypes.STRING,
             allowNull: false
-        },
-        gender: {
-            type: DataTypes.STRING,
-            allowNull: true
-        },
-        address: {
-            type: DataTypes.STRING,
-            allowNull: true
-        },
-        phoneNumber: {
-            field: 'phone_number',
-            type: DataTypes.STRING,
-            allowNull: true
-        },
-        avatar: {
-            type: DataTypes.STRING,
-            allowNull: true
-        },
-        isAdmin: {
-            field: 'is_admin',
-            type: DataTypes.BOOLEAN,
-            allowNull: false,
-            defaultValue: false
         },
         // change name createdAt to created_at and auto generate
         createdAt: {
@@ -58,5 +43,5 @@ module.exports = (sequelize, DataTypes) => {
 
     });
 
-    return User;
+    return Discount;
 }

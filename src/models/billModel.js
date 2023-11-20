@@ -1,45 +1,30 @@
 module.exports = (sequelize, DataTypes) => {
-    const User = sequelize.define('user', {
-        id: {
+    const Bill = sequelize.define('bill', {
+        userId: {
+            field: 'user_id',
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        billDate: {
+            field: 'bill_date',
+            type: DataTypes.STRING,
+            allowNull: true
+        },
+        totalMoney: {
+            field: 'total_money',
+            type: DataTypes.INTEGER,
             allowNull: false,
-            autoIncrement: true,
-            primaryKey: true,
-            type: DataTypes.INTEGER
+            defaultValue: 0
         },
-        username: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        email: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        password: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        gender: {
+        billPayed: {
+            field: 'bill_payed',
             type: DataTypes.STRING,
             allowNull: true
         },
-        address: {
+        discountId: {
+            field: 'discount_id',
             type: DataTypes.STRING,
             allowNull: true
-        },
-        phoneNumber: {
-            field: 'phone_number',
-            type: DataTypes.STRING,
-            allowNull: true
-        },
-        avatar: {
-            type: DataTypes.STRING,
-            allowNull: true
-        },
-        isAdmin: {
-            field: 'is_admin',
-            type: DataTypes.BOOLEAN,
-            allowNull: false,
-            defaultValue: false
         },
         // change name createdAt to created_at and auto generate
         createdAt: {
@@ -58,5 +43,5 @@ module.exports = (sequelize, DataTypes) => {
 
     });
 
-    return User;
+    return Bill;
 }

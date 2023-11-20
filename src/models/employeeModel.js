@@ -1,45 +1,38 @@
 module.exports = (sequelize, DataTypes) => {
-    const User = sequelize.define('user', {
-        id: {
-            allowNull: false,
-            autoIncrement: true,
-            primaryKey: true,
-            type: DataTypes.INTEGER
-        },
-        username: {
+    const Employee = sequelize.define('employee', {
+        employeeName: {
+            field: 'employee_name',
             type: DataTypes.STRING,
             allowNull: false
         },
-        email: {
+        employeePossition: {
+            field: 'employee_possition',
             type: DataTypes.STRING,
             allowNull: false
         },
-        password: {
+        staffCode: {
+            field: 'staff_code',
             type: DataTypes.STRING,
             allowNull: false
         },
-        gender: {
+        totalWorkingTime: {
+            field: 'total_working_time',
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        salary: {
             type: DataTypes.STRING,
             allowNull: true
         },
-        address: {
+        startWorkingDay: {
+            field: 'start_working_day',
             type: DataTypes.STRING,
             allowNull: true
         },
         phoneNumber: {
             field: 'phone_number',
             type: DataTypes.STRING,
-            allowNull: true
-        },
-        avatar: {
-            type: DataTypes.STRING,
-            allowNull: true
-        },
-        isAdmin: {
-            field: 'is_admin',
-            type: DataTypes.BOOLEAN,
-            allowNull: false,
-            defaultValue: false
+            allowNull: false
         },
         // change name createdAt to created_at and auto generate
         createdAt: {
@@ -58,5 +51,5 @@ module.exports = (sequelize, DataTypes) => {
 
     });
 
-    return User;
+    return Employee;
 }
