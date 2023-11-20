@@ -135,7 +135,6 @@ const filterBills = async (filter) => {
         }
         if (username) {
             dbFilter.include[0].where['username'] = username;
-            console.log(dbFilter.include[0].where['username'])
         }
         if (id) {
             dbFilter.where['id'] = id;
@@ -182,7 +181,7 @@ const addDishToCart = async (addDishToCartReq) => {
                 billPayed: false,
             }
         });
-        
+
         let currBillDish;
         // If an unpaid bill existed, then find the dish in that bill
         if (unpaidBill) {
@@ -215,7 +214,7 @@ const addDishToCart = async (addDishToCartReq) => {
                 totalMoney: 0,
                 billPayed: false
             })
-            
+
             currBillDish = await billDishModel.create({
                 billId: unpaidBill.id,
                 dishId: dishId,
@@ -231,7 +230,7 @@ const addDishToCart = async (addDishToCartReq) => {
         })
         unpaidBill.totalMoney += dish.dishPrice;
         unpaidBill.save();
-        
+
         return {
             status: 200,
             message: "Add dish to bill successfully",
@@ -278,7 +277,7 @@ const removeDishFromCart = async (removeDishFromCartReq) => {
                         billId: unpaidBill.id,
                         dishId: dishId
                     },
-                  });
+                });
             }
         }
 
@@ -302,7 +301,7 @@ const getAllDishesOfBill = async (userId, billId) => {
                 userId: userId
             }
         });
-    
+
         if (!currBill) {
             return {
                 status: 400,
@@ -334,7 +333,7 @@ const getAllDishesOfBill = async (userId, billId) => {
                 data: dishList
             }
         }
-    } catch(error) {
+    } catch (error) {
         return {
             status: 500,
             message: error.message

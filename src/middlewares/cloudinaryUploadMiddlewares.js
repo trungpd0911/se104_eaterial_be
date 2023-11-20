@@ -11,7 +11,7 @@ cloudinary.config({
 
 const storageUser = new CloudinaryStorage({
     cloudinary,
-    allowedFormats: ['jpg', 'png'],
+    allowedFormats: ['jpg', 'png', 'jpeg', 'webp'],
     params: {
         folder: "avatarUser4FOOD",
     }
@@ -19,7 +19,7 @@ const storageUser = new CloudinaryStorage({
 
 const storageDish = new CloudinaryStorage({
     cloudinary,
-    allowedFormats: ['jpg', 'png'],
+    allowedFormats: ['jpg', 'png', 'jpeg', 'webp'],
     params: {
         folder: "imageDish4FOOD",
     }

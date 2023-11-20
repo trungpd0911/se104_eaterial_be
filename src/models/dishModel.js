@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         dishDescription: {
             field: 'dish_description',
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
             allowNull: false
         },
         totalOrder: {

@@ -12,6 +12,6 @@ router.put('/:id', authMiddleware.verifyTokenAdminOrCurrentUser, uploadCloudUser
 // forgot password
 router.post('/forgot-password', userController.forgotPassword);
 // change password
-router.post('/change-password/:id', authMiddleware.verifyTokenAndAuthorization, userController.changePassword);
+router.post('/:id/change-password/', authMiddleware.verifyTokenAndAuthorization, userController.changePassword);
 
 module.exports = router;
