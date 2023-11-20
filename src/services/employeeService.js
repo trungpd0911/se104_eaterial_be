@@ -3,15 +3,15 @@ const Employee = db.employee;
 
 const createEmployee = async (data) => {
     try {
-        const { employeeName, employeePossition, staffCode, salary, startWorkingDay, phoneNumber } = data;
-        const employee = await Employee.create({
+        const { employeeName, employeePossition, staffCode, startWorkingDay, salary, workShift, phoneNumber } = data;
+        await Employee.create({
             employeeName: employeeName,
             employeePossition: employeePossition,
             staffCode: staffCode,
-            salary: salary,
             startWorkingDay: startWorkingDay,
-            phoneNumber: phoneNumber,
-            totalWorkingTime: 0,
+            salary: salary,
+            workShift: workShift,
+            phoneNumber: phoneNumber
         });
         return {
             statusCode: 200,
@@ -27,7 +27,130 @@ const createEmployee = async (data) => {
     }
 }
 
+const getAllEmployees = async () => {
+    try {
+        const employees = await Employee.findAll();
+        return {
+            statusCode: 200,
+            message: 'Get all employees successfully',
+            data: employees
+        }
+    } catch (error) {
+        return {
+            statusCode: 500,
+            message: error.message,
+            data: null
+        }
+    }
+};
+
+const getEmployeeByID = async (id) => {
+    try {
+        const employee = await Employee.findOne({
+            where: {
+                id: id
+            }
+        });
+        if (!employee) {
+            return {
+                statusCode: 404,
+                message: 'Employee not found',
+                data: null
+            }
+        }
+        return {
+            statusCode: 200,
+            message: 'Get employee by id successfully',
+            data: employee
+        }
+    } catch (error) {
+        return {
+            statusCode: 500,
+            message: error.message,
+            data: null
+        }
+    }
+}
+
+const updateEmployee = async (id, data) => {
+    try {
+        const employee = await Employee.findOne({
+            where: {
+                id: id
+            }
+        });
+        if (!employee) {
+            return {
+                statusCode: 404,
+                message: 'Employee not found',
+                data: null
+            }
+        }
+        const { employeeName, employeePossition, staffCode, startWorkingDay, salary, workShift, phoneNumber } = data;
+        await Employee.update({
+            employeeName: employeeName,
+            employeePossition: employeePossition,
+            staffCode: staffCode,
+            startWorkingDay: startWorkingDay,
+            salary: salary,
+            workShift: workShift,
+            phoneNumber: phoneNumber
+        }, {
+            where: {
+                id: id
+            }
+        });
+        return {
+            statusCode: 200,
+            message: 'Update employee successfully',
+            data: null
+        }
+    } catch (error) {
+        return {
+            statusCode: 500,
+            message: error.message,
+            data: null
+        }
+    }
+}
+
+const deleteEmployee = async (id) => {
+    try {
+        const employee = await Employee.findOne({
+            where: {
+                id: id
+            }
+        });
+        if (!employee) {
+            return {
+                statusCode: 404,
+                message: 'Employee not found',
+                data: null
+            }
+        }
+        await Employee.destroy({
+            where: {
+                id: id
+            }
+        });
+        return {
+            statusCode: 200,
+            message: 'Delete employee successfully',
+            data: null
+        }
+    } catch (error) {
+        return {
+            statusCode: 500,
+            message: error.message,
+            data: null
+        }
+    }
+}
+
 module.exports = {
     createEmployee,
-
+    getAllEmployees,
+    getEmployeeByID,
+    updateEmployee,
+    deleteEmployee
 }

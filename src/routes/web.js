@@ -23,7 +23,7 @@ let initWebRoutes = (app) => {
     // done
     router.use('/comment', commentRoute);
     // done
-    // router.use('/employee', employeeRoute);
+    router.use('/employee', employeeRoute);
 
     router.use('/bill', billRoute);
     router.use('/discount', discountRoute);
