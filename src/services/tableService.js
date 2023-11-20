@@ -7,7 +7,6 @@ const { Sequelize } = require('sequelize');
 const createTable = async (createTableReq) => {
     try {
         createTableReq.tableStatus = 'Available';
-        console.log(createTableReq);
         const newTable = await tableModel.create(createTableReq);
         return {
             status: 200,
@@ -55,24 +54,21 @@ const filterTables = async (tableStatus, tablePosition, bookingTime) => {
                 tableStatus: tableStatus
             }
         }
-    
+
         if (tableStatus) {
             filter.where.tableStatus = tableStatus;
-            console.log(filter.where.tableStatus);
         }
-    
+
         if (tablePosition) {
             filter.where.tablePosition = tablePosition;
-            console.log(filter.where.tablePosition);
         }
-    
+
         if (bookingTime) {
             let toDay = new Date(bookingTime);
             toDay.setHours(23, 59, 59, 999);
             let fromDay = new Date(bookingTime);
             fromDay.setHours(0, 0, 0, 0);
-            console.log(fromDay, toDay);
-            
+
             filter.include[0].through.where.bookingTime = {
                 [Sequelize.Op.gte]: fromDay,
                 [Sequelize.Op.lte]: toDay,

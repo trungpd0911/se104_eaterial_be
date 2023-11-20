@@ -3,7 +3,6 @@ const tableService = require('../services/tableService');
 // Create a new table
 const createTable = async (req, res) => {
     let createTableReq = req.body;
-    console.log(createTableReq)
     const response = await tableService.createTable(createTableReq);
     res.status(response.status).json(response);
 }
@@ -18,11 +17,9 @@ const deleteTable = async (req, res) => {
 // Filter tables by tableStatus, tablePosition, bookingTime
 const filterTables = async (req, res) => {
     const filter = req.query;
-    console.log(filter);
     const tableStatus = filter.status;
     const tablePosition = filter.position;
     const bookingTime = filter.day;
-    console.log("BookingTime: ", bookingTime);
     const response = await tableService.filterTables(tableStatus, tablePosition, bookingTime);
     res.status(response.status).json(response);
 }

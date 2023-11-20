@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         discountId: {
             field: 'discount_id',
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
             allowNull: true
         },
         // change name createdAt to created_at and auto generate

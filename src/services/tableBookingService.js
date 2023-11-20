@@ -57,7 +57,6 @@ const bookTable = async (userId, tableId, bookingTime) => {
             tableId: tableId,
             bookingTime: new Date(bookingTime)
         });
-        console.log(new Date(bookingTime));
 
 
         // Set status of table to Occupied
@@ -77,7 +76,7 @@ const bookTable = async (userId, tableId, bookingTime) => {
     }
 
     // Table was booked
-    
+
 }
 
 // Remove a tableBooking and set tableStatus to Available

@@ -329,7 +329,10 @@ const searchDishByName = async (keyword) => {
                 message: 'no Dish found in db',
                 data: null,
             }
-        const filterDish = allDish.filter(dish => dish.dishName.toLowerCase().includes(keyword.toLowerCase()));
+        // check if keyword is 'Bún chả' => 'bun cha'
+        keyword = keyword.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        const filterDish = allDish.filter(dish => dish.dishName.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(keyword));
+
         if (!filterDish)
             return {
                 statusCode: 404,
