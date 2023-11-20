@@ -1,30 +1,21 @@
+// user - discount model
 module.exports = (sequelize, DataTypes) => {
-    const Bill = sequelize.define('bill', {
+    const UserDiscount = sequelize.define('user_discount', {
         userId: {
             field: 'user_id',
             type: DataTypes.INTEGER,
             allowNull: false
         },
-        billDate: {
-            field: 'bill_date',
-            type: DataTypes.STRING,
-            allowNull: true
-        },
-        totalMoney: {
-            field: 'total_money',
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            defaultValue: 0
-        },
-        billPayed: {
-            field: 'bill_payed',
-            type: DataTypes.STRING,
-            allowNull: true
-        },
         discountId: {
             field: 'discount_id',
-            type: DataTypes.STRING,
-            allowNull: true
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        used: {
+            field: 'used',
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false
         },
         // change name createdAt to created_at and auto generate
         createdAt: {
@@ -43,5 +34,5 @@ module.exports = (sequelize, DataTypes) => {
 
     });
 
-    return Bill;
+    return UserDiscount;
 }

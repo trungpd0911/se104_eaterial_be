@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         dishPrice: {
             field: 'dish_price',
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
             allowNull: false
         },
         dishDescription: {
@@ -20,15 +20,15 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             allowNull: true
         },
-        discountId: {
-            field: 'discount_id',
-            type: DataTypes.STRING,
-            allowNull: true
-        },
         menuId: {
             field: 'menu_id',
             type: DataTypes.INTEGER,
             allowNull: false
+        },
+        discountId: {
+            field: 'discount_id',
+            type: DataTypes.INTEGER,
+            allowNull: true
         },
         // change name createdAt to created_at and auto generate
         createdAt: {

@@ -1,13 +1,19 @@
 module.exports = (sequelize, DataTypes) => {
     const Discount = sequelize.define('discount', {
-        adminId: {
-            field: 'admin_id',
-            type: DataTypes.INTEGER,
+        discountCode: {
+            field: 'discount_code',
+            type: DataTypes.STRING,
+            allowNull: false,
+            unique: true
+        },
+        discountDecription: {
+            field: 'discount_description',
+            type: DataTypes.STRING,
             allowNull: false
         },
-        discountValue: {
-            field: 'discount_value',
-            type: DataTypes.STRING,
+        discountPercent: {
+            field: 'discount_percent',
+            type: DataTypes.INTEGER,
             allowNull: false
         },
         startDay: {

@@ -40,6 +40,7 @@ db.table = require('./tableModel')(sequelize, DataTypes);
 db.tableBooking = require('./tableBookingModel')(sequelize, DataTypes);
 db.comment = require('./commentModel')(sequelize, DataTypes);
 db.image = require('./imageModel')(sequelize, DataTypes);
+db.userDiscount = require('./userDiscountModel')(sequelize, DataTypes);
 
 // setup for foreign keys
 
@@ -53,14 +54,16 @@ db.employee.belongsTo(db.user, {
     foreignKeyConstraint: true,
 });
 
-// discount and user(admin)
-db.user.hasMany(db.discount, {
-    foreignKey: 'adminId',
-    foreignKeyConstraint: true,
+// discount and user (user own discount)
+db.user.belongsToMany(db.discount, {
+    through: db.userDiscount,
+    foreignKey: 'userId',
+    otherKey: 'discountId'
 });
-db.discount.belongsTo(db.user, {
-    foreignKey: 'adminId',
-    foreignKeyConstraint: true,
+db.discount.belongsToMany(db.user, {
+    through: db.userDiscount,
+    foreignKey: 'userId',
+    otherKey: 'discountId'
 });
 // user and bill 
 db.user.hasMany(db.bill, {
@@ -118,13 +121,13 @@ db.dish.belongsTo(db.menu, {
     foreignKeyConstraint: true,
 });
 
-// dish has many discount 
-db.dish.hasMany(db.discount, {
-    foreignKey: 'dishId',
+// bill has one discount 
+db.bill.hasOne(db.discount, {
+    foreignKey: 'billId',
     foreignKeyConstraint: true,
 });
-db.discount.belongsTo(db.dish, {
-    foreignKey: 'dishId',
+db.discount.belongsTo(db.bill, {
+    foreignKey: 'billId',
     foreignKeyConstraint: true,
 });
 
