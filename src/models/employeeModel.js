@@ -15,17 +15,17 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
-        totalWorkingTime: {
-            field: 'total_working_time',
+        startWorkingDay: {
+            field: 'start_working_day',
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         salary: {
             type: DataTypes.STRING,
             allowNull: true
         },
-        startWorkingDay: {
-            field: 'start_working_day',
+        workShift: {
+            field: 'work_shift',
             type: DataTypes.STRING,
             allowNull: true
         },
