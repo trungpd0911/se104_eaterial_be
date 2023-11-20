@@ -23,7 +23,6 @@ const register = async (body) => {
             }
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
-        console.log(await bcrypt.hash("admin", salt));
 
         await user.create({
             username: username,
@@ -55,7 +54,6 @@ const generateAccessToken = (User) => {
     )
 }
 const generateRefreshToken = (User) => {
-    // console.log(User);
     return jwt.sign(
         {
             id: User.id,
@@ -88,7 +86,6 @@ const login = async (data) => {
             }
         const isPasswordCorrect = await bcrypt.compare(password, userLogin.password);
         if (!isPasswordCorrect) {
-            console.log(3);
             return {
                 statusCode: 401,
                 message: 'Incorrect email or password.',
@@ -138,7 +135,6 @@ const forgotPassword = async (email) => {
 const refreshToken = async (refreshToken) => {
     try {
         //Send error if token is not valid
-        console.log(refreshToken);
         if (!refreshToken)
             return {
                 statusCode: 403,

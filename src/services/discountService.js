@@ -73,7 +73,7 @@ const assignDiscountToAllUsers = async (discountId) => {
             }
         }
 
-        
+
         // Set to all not-having users
         const users = await userModel.findAll();
         for (let i = 0; i < users.length; i++) {
@@ -109,7 +109,6 @@ const assignDiscountToAllUsers = async (discountId) => {
 // User get all their discounts
 const getAllUserDiscounts = async (userId) => {
     try {
-        console.log(userId)
         // get all discount of user using userDiscount table
         // const discounts = await discountModel.findAll({
         //     include: [{

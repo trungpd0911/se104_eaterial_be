@@ -17,7 +17,8 @@ const login = async (req, res) => {
             res.cookie("refreshToken", response.data.refreshToken,
                 {
                     httpOnly: true,
-                    secure: false, // deploy: true
+                    // secure: false, // deploy: true
+                    secure: true,
                     path: "/",
                     sameSite: "strict",
                 });
