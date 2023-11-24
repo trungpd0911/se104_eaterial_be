@@ -100,7 +100,7 @@ const login = async (data) => {
             return {
                 statusCode: 200,
                 message: 'Login successfully.',
-                data: { ...info, accessToken, refreshToken },
+                data: { accessToken, refreshToken },
             }
         }
     } catch (err) {
@@ -121,16 +121,6 @@ const logout = async (refreshToken) => {
     }
 }
 
-const forgotPassword = async (email) => {
-    try {
-        const user = await user.findOne({ where: { email } });
-        if (!user) throw new Error('User does not exist.');
-        const resetToken = jwt.sign({ id: user.id }, process.env.RESET_TOKEN_SECRET, { expiresIn: '15m' });
-        return resetToken;
-    } catch (err) {
-        throw err;
-    }
-}
 
 const refreshToken = async (refreshToken) => {
     try {
@@ -176,6 +166,5 @@ module.exports = {
     register,
     login,
     logout,
-    forgotPassword,
     refreshToken
 }

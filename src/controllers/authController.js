@@ -22,8 +22,8 @@ const login = async (req, res) => {
                     path: "/",
                     sameSite: "strict",
                 });
-            const { refreshToken, ...info } = response.data;
-            res.status(response.statusCode).json(info);
+            const accessToken = response.data.accessToken;
+            res.status(response.statusCode).json(accessToken);
         }
         else {
             res.status(response.statusCode).json(response);
@@ -59,7 +59,7 @@ const refreshToken = async (req, res) => {
                 // When set to strict, the cookie will only be sent along with requests
             });
         const { refreshToken: _, ...info } = response.data;
-        res.status(response.statusCode).json(info); 9
+        res.status(response.statusCode).json(info);
     } catch (err) {
         res.status(500).json(err);
     }

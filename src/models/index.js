@@ -45,14 +45,14 @@ db.userDiscount = require('./userDiscountModel')(sequelize, DataTypes);
 // setup for foreign keys
 
 // user and employee
-db.user.hasMany(db.employee, {
-    foreignKey: 'userId',
-    foreignKeyConstraint: true,
-});
-db.employee.belongsTo(db.user, {
-    foreignKey: 'userId',
-    foreignKeyConstraint: true,
-});
+// db.user.hasMany(db.employee, {
+//     foreignKey: 'userId',
+//     foreignKeyConstraint: true,
+// });
+// db.employee.belongsTo(db.user, {
+//     foreignKey: 'userId',
+//     foreignKeyConstraint: true,
+// });
 
 // discount and user (user own discount)
 db.user.belongsToMany(db.discount, {

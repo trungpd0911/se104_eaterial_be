@@ -7,7 +7,7 @@ const createComment = async (userId, data) => {
         const { rating, content, dishId } = data;
         if (!rating || !content || !dishId)
             return {
-                statusCode: 400,
+                statusCode: 422,
                 message: "Rating and content are required",
                 data: null,
             }
