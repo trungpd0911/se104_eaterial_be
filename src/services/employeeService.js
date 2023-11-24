@@ -4,6 +4,21 @@ const Employee = db.employee;
 const createEmployee = async (data) => {
     try {
         const { employeeName, employeePossition, staffCode, startWorkingDay, salary, workShift, phoneNumber } = data;
+        if (!employeeName || !employeePossition || !staffCode || !startWorkingDay || !salary || !workShift || !phoneNumber) {
+            return {
+                statusCode: 422,
+                message: 'Missing field',
+                data: null
+            }
+        }
+        const employee = Employee.findByPk(staffCode);
+        if (employee) {
+            return {
+                statusCode: 400,
+                message: 'Employee already exists',
+                data: null
+            }
+        }
         await Employee.create({
             employeeName: employeeName,
             employeePossition: employeePossition,
@@ -30,6 +45,13 @@ const createEmployee = async (data) => {
 const getAllEmployees = async () => {
     try {
         const employees = await Employee.findAll();
+        if (!employees) {
+            return {
+                statusCode: 404,
+                message: 'Employees not found',
+                data: null
+            }
+        }
         return {
             statusCode: 200,
             message: 'Get all employees successfully',

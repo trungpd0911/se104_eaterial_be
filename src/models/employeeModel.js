@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
         staffCode: {
             field: 'staff_code',
             type: DataTypes.STRING,
+            primaryKey: true,
             allowNull: false
         },
         startWorkingDay: {
