@@ -8,6 +8,12 @@ const cloudinary = require('cloudinary').v2;
 const getAllUsers = async () => {
     try {
         const users = await userModel.findAll();
+        if (!users)
+            return {
+                status: 404,
+                message: 'no users found in database',
+                data: null,
+            }
         return {
             status: 200,
             message: 'Users found',

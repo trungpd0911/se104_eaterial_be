@@ -33,6 +33,13 @@ const createMenu = async (data) => {
 const getAllMenus = async () => {
     try {
         const menus = await Menu.findAll();
+        if (!menus) {
+            return {
+                statusCode: 404,
+                message: 'Menus not found',
+                data: null,
+            }
+        }
         return {
             statusCode: 200,
             message: 'Get all menus successfully',
