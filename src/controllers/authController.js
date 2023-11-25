@@ -21,9 +21,19 @@ const login = async (req, res) => {
                     secure: true,
                     path: "/",
                     sameSite: "strict",
+                    // When set to strict, the cookie will only be sent along with requests
                 });
-            const accessToken = response.data.accessToken;
-            res.status(response.statusCode).json(accessToken);
+            // return {
+            //     statusCode: 200,
+            //     message: 'Login successfully.',
+            //     data: { accessToken},
+            // }
+            const info = {
+                statusCode: 200,
+                message: 'Login successfully.',
+                accessToken: response.data.accessToken,
+            }
+            res.status(response.statusCode).json(info);
         }
         else {
             res.status(response.statusCode).json(response);
