@@ -13,31 +13,27 @@ const register = async (req, res) => {
 const login = async (req, res) => {
     try {
         const response = await authService.login(req.body);
-        if (response.statusCode === 200) {
-            res.cookie("refreshToken", response.data.refreshToken,
-                {
-                    httpOnly: true,
-                    secure: false, // deploy: true
-                    // secure: true,
-                    path: "/",
-                    sameSite: "strict",
-                    // When set to strict, the cookie will only be sent along with requests
-                });
-            // return {
-            //     statusCode: 200,
-            //     message: 'Login successfully.',
-            //     data: { accessToken},
-            // }
-            const info = {
-                statusCode: 200,
-                message: 'Login successfully.',
-                accessToken: response.data.accessToken,
-            }
-            res.status(response.statusCode).json(info);
-        }
-        else {
-            res.status(response.statusCode).json(response);
-        }
+        // if (response.statusCode === 200) {
+        // res.cookie("refreshToken", response.data.refreshToken,
+        //     {
+        //         httpOnly: true,
+        //         secure: false, // deploy: true
+        //         // secure: true,
+        //         path: "/",
+        //         sameSite: "strict",
+        //         // When set to strict, the cookie will only be sent along with requests
+        //     });
+        //     const info = {
+        //         statusCode: 200,
+        //         message: 'Login successfully.',
+        //         accessToken: response.data.accessToken,
+        //     }
+        //     res.status(response.statusCode).json(info);
+        // }
+        // else {
+        //     res.status(response.statusCode).json(response);
+        // }
+        res.status(response.statusCode).json(response);
     } catch (err) {
         res.status(500).json(err);
     }
@@ -45,7 +41,7 @@ const login = async (req, res) => {
 
 const logout = async (req, res) => {
     try {
-        res.clearCookie("refreshToken");
+        // res.clearCookie("refreshToken");
         const response = await authService.logout(req.body);
         res.status(response.statusCode).json(response);
     } catch (err) {
