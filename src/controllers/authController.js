@@ -17,8 +17,8 @@ const login = async (req, res) => {
             res.cookie("refreshToken", response.data.refreshToken,
                 {
                     httpOnly: true,
-                    // secure: false, // deploy: true
-                    secure: true,
+                    secure: false, // deploy: true
+                    // secure: true,
                     path: "/",
                     sameSite: "strict",
                     // When set to strict, the cookie will only be sent along with requests
