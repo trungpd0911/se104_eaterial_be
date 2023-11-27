@@ -379,7 +379,7 @@ const checkout = async (userId, discountCode) => {
 
         if (!unpaidBill) {
             return {
-                status: 500,
+                status: 404,
                 message: "No unpaid bill found"
             }
         }

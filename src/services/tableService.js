@@ -82,7 +82,7 @@ const filterTables = async (tableStatus, tablePosition, bookingTime) => {
         });
 
         return {
-            status: 500,
+            status: 200,
             message: 'Filter tables successfully',
             data: result
         }
