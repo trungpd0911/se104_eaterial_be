@@ -94,13 +94,13 @@ const login = async (data) => {
         }
         if (userLogin && isPasswordCorrect) {
             const accessToken = generateAccessToken(userLogin);
-            const refreshToken = generateRefreshToken(userLogin);
-            refreshTokens.push(refreshToken);
-            const { password, ...info } = userLogin.dataValues;
+            // const refreshToken = generateRefreshToken(userLogin);
+            // refreshTokens.push(refreshToken);
             return {
                 statusCode: 200,
                 message: 'Login successfully.',
-                data: { accessToken, refreshToken },
+                // data: { accessToken, refreshToken },
+                data: accessToken,
             }
         }
     } catch (err) {
