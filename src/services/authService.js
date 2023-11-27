@@ -100,7 +100,7 @@ const login = async (data) => {
                 statusCode: 200,
                 message: 'Login successfully.',
                 // data: { accessToken, refreshToken },
-                data: accessToken,
+                accessToken: accessToken,
             }
         }
     } catch (err) {
