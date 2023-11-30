@@ -235,6 +235,28 @@ const changePassword = async (id, data) => {
     }
 }
 
+const getMe = async (id) => {
+    try {
+        const user = await userModel.findByPk(id);
+        if (!user) {
+            return {
+                status: 404,
+                message: 'User not found'
+            }
+        }
+        return {
+            status: 200,
+            message: 'User found',
+            data: user
+        }
+    } catch (error) {
+        return {
+            status: 500,
+            message: error.message
+        }
+    }
+}
+
 module.exports = {
     getAllUsers,
     getUserByID,
@@ -242,4 +264,5 @@ module.exports = {
     deleteUser,
     forgotPassword,
     changePassword,
+    getMe
 }
