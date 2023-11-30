@@ -11,7 +11,7 @@ const createEmployee = async (data) => {
                 data: null
             }
         }
-        const employee = Employee.findByPk(staffCode);
+        const employee = await Employee.findByPk(staffCode);
         if (employee) {
             return {
                 statusCode: 400,

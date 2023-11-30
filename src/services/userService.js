@@ -142,9 +142,40 @@ const forgotPassword = async (email) => {
         const mailOptions = {
             from: process.env.EMAIL_HOST,
             to: email,
-            subject: "reset password in 4food eaterial",
-            text: "Your new password is: " + newPassword,
-        }
+            subject: "Reset Password for 4food Eaterial",
+            html: `
+                <html>
+                    <head>
+                        <style>
+                            body {
+                                font-family: 'Arial', sans-serif;
+                                background-color: #f4f4f4;
+                                padding: 20px;
+                            }
+                            .container {
+                                max-width: 600px;
+                                margin: 0 auto;
+                                background-color: #fff;
+                                padding: 20px;
+                                border-radius: 5px;
+                                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                            }
+                            h1 {
+                                color: #333;
+                                font-size: 30px;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="container">
+                            <h1> your new password is {$new} </h1>
+
+                        </div>
+                    </body>
+                </html>
+            `,
+        };
+
         transporter.sendMail(mailOptions, async (err) => {
             if (err) {
                 return {
