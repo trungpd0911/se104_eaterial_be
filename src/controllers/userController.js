@@ -38,6 +38,12 @@ const changePassword = async (req, res) => {
     res.status(response.status).json(response);
 }
 
+const getMe = async (req, res) => {
+    const id = req.user.id;
+    const response = await userService.getMe(id);
+    res.status(response.status).json(response);
+}
+
 
 module.exports = {
     getAllUsers,
@@ -45,5 +51,6 @@ module.exports = {
     updateUser,
     deleteUser,
     forgotPassword,
-    changePassword
+    changePassword,
+    getMe
 }
