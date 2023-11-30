@@ -14,6 +14,6 @@ router.post('/forgot-password', userController.forgotPassword);
 // change password
 router.post('/:id/change-password/', authMiddleware.verifyTokenAndAuthorization, userController.changePassword);
 // get information of me 
-router.get('/me', authMiddleware.verifyToken, userController.getMe);
+router.get('/me/info', authMiddleware.verifyToken, userController.getMe);
 
 module.exports = router;
