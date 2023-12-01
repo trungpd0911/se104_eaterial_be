@@ -145,8 +145,8 @@ db.image.belongsTo(db.dish, {
 
 // If 'force' is set = true, data will be deleted when starting server
 db.sequelize.sync({ force: false })
-    .then(() => {
-        console.log("Sequelize sync done");
-    })
+// .then(() => {
+//     console.log("Sequelize sync done");
+// })
 
 module.exports = db;
