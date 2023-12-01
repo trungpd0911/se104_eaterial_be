@@ -135,7 +135,10 @@ const cancelTable = async (userId, tableId) => {
             message: "Cancle table booking successfully",
             table_id: table.id
         },
-        broadcast: null
+        broadcast: {
+            message: "A table booking was canceled",
+            table_id: table.id
+        }
     }
 }
 

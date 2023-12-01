@@ -193,13 +193,6 @@ const deleteDish = async (id) => {
                 message: 'Dish not found',
                 data: null,
             }
-        // const imageDish = await Image.findAll({ where: { dishId: id } });
-        // if (imageDish) {
-        //     for (let image of imageDish) {
-        //         cloudinary.uploader.destroy(image.imageFilename);
-        //         await image.destroy();
-        //     }
-        // }
         await dish.destroy();
         return {
             statusCode: 200,
