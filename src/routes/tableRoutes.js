@@ -9,6 +9,6 @@ router.get('/filter', authMiddleware.verifyTokenAdmin, tableController.filterTab
 router.get('/all', authMiddleware.verifyToken, tableController.getAllTables);
 
 // User
-router.get('/my-table', authMiddleware.verifyToken, tableController.getUserTable);
+router.get('/user', authMiddleware.verifyToken, tableController.getUserTable);
 
 module.exports = router;
