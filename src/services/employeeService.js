@@ -3,8 +3,8 @@ const Employee = db.employee;
 
 const createEmployee = async (data) => {
     try {
-        const { employeeName, employeePossition, staffCode, startWorkingDay, salary, workShift, phoneNumber } = data;
-        if (!employeeName || !employeePossition || !staffCode || !startWorkingDay || !salary || !workShift || !phoneNumber) {
+        const { employeeName, employeePosition, staffCode, startWorkingDay, salary, workShift, phoneNumber } = data;
+        if (!employeeName || !employeePosition || !staffCode || !startWorkingDay || !salary || !workShift || !phoneNumber) {
             return {
                 statusCode: 422,
                 message: 'Missing field',
@@ -21,7 +21,7 @@ const createEmployee = async (data) => {
         }
         await Employee.create({
             employeeName: employeeName,
-            employeePossition: employeePossition,
+            employeePosition: employeePosition,
             staffCode: staffCode,
             startWorkingDay: startWorkingDay,
             salary: salary,
@@ -108,10 +108,10 @@ const updateEmployee = async (id, data) => {
                 data: null
             }
         }
-        const { employeeName, employeePossition, staffCode, startWorkingDay, salary, workShift, phoneNumber } = data;
+        const { employeeName, employeePosition, staffCode, startWorkingDay, salary, workShift, phoneNumber } = data;
         await Employee.update({
             employeeName: employeeName,
-            employeePossition: employeePossition,
+            employeePosition: employeePosition,
             staffCode: staffCode,
             startWorkingDay: startWorkingDay,
             salary: salary,
