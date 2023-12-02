@@ -144,35 +144,9 @@ const forgotPassword = async (email) => {
             to: email,
             subject: "Reset Password for 4food Eaterial",
             html: `
-                <html>
-                    <head>
-                        <style>
-                            body {
-                                font-family: 'Arial', sans-serif;
-                                background-color: #f4f4f4;
-                                padding: 20px;
-                            }
-                            .container {
-                                max-width: 600px;
-                                margin: 0 auto;
-                                background-color: #fff;
-                                padding: 20px;
-                                border-radius: 5px;
-                                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                            }
-                            h1 {
-                                color: #333;
-                                font-size: 30px;
-                            }
-                        </style>
-                    </head>
-                    <body>
-                        <div class="container">
-                            <h1> your new password is {$new} </h1>
-
-                        </div>
-                    </body>
-                </html>
+            <h1>Reset Password for 4food Eaterial</h1>
+            <h2>Hi ${user.username},</h2>
+            <h2>Your new password is: <b>${newPassword}</b></h2>
             `,
         };
 
