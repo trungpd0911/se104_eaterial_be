@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         startWorkingDay: {
             field: 'start_working_day',
-            type: DataTypes.STRING,
+            type: DataTypes.DATE,
             allowNull: true
         },
         salary: {

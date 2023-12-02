@@ -20,6 +20,8 @@ After clone code successfully, use this command to install essential packages:
 npm install
 ```
 
+Create a .env file in the project root based on the provided .env.example file. This file will contain sensitive information such as database credentials. Replace the placeholder values with your actual database details.
+
 ### Run code
 
 Use this command to run code in dev environment:
@@ -41,9 +43,13 @@ npm start
     - intercept and process requests and responses as they flow through the application
 - config
     - holds configuration files and settings for your application
+- __tests__
+    - this folder is use for test this server using jest and supertest
 
-## Production
+## api-docs
+- This API is built using Swagger UI for easy exploration and testing.
+- https://trungpd0911.github.io/swaggerUI-SE104/
 
-### Build code
-
-### Deploy
+## Deploy
+- this server is deployed in onrender 
+- this is link of the server : https://se104-eateria.onrender.com
