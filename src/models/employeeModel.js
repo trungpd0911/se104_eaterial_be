@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
         employeePosition: {
-            field: 'employee_possition',
+            field: 'employee_position',
             type: DataTypes.STRING,
             allowNull: false
         },
