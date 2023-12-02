@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const request = require('supertest');
 const { describe } = require('yargs');
+const { test } = require('node:test');
 // const exp = require('constants');
 require('dotenv').config();
 
@@ -21,7 +22,7 @@ app.use(cors())
 
 initWebRoutes(app);
 
-
+// Register 
 describe('POST /v1/auth/register', () => {
     test("should register user fail", async () => {
         let data = {
@@ -41,6 +42,7 @@ describe('POST /v1/auth/register', () => {
     })
 });
 
+// Login
 describe('POST /v1/auth/login', () => {
     test("should login user successly", async () => {
         let data = {
@@ -56,8 +58,25 @@ describe('POST /v1/auth/login', () => {
         expect(response.header['content-type']).toMatch('application/json');
         expect(response.statusCode).toBe(200);
     });
+
+    test("should login user fail", async () => {
+        let data = {
+            "email": "",
+            "password": ""
+        }
+
+        const response = await request(app)
+            .post('/v1/auth/login')
+            .send(data)
+            .set('Accept', 'application/json')
+
+        expect(response.header['content-type']).toMatch('application/json');
+        expect(response.statusCode).toBe(400);
+        expect(response.body).toHaveProperty('message', 'Email and password are required');
+    })
 })
 
+// Get all dish
 describe('GET /v1/dish', () => {
     test("should get all dishes", async () => {
         const response = await request(app)
@@ -71,6 +90,7 @@ describe('GET /v1/dish', () => {
 })
 
 
+// Get all dishes in cart
 describe('GET /bill/cart', () => {
     test("should get all dishes in cart", async () => {
         let data = {
@@ -111,10 +131,11 @@ describe('GET /bill/cart', () => {
 
         expect(response.header['content-type']).toMatch('application/json');
         expect(response.statusCode).toBe(401);
-        expect(response.text).toBe("\"You're not authenticated\"");
+        expect(response.body).toBe("\"You're not authenticated\"");
     })
 })
 
+// Add a dish to cart
 describe('POST /bill/dish/add', () => {
     test('should return 401 if no token provided', async () => {
         const response = await request(app)
@@ -126,7 +147,7 @@ describe('POST /bill/dish/add', () => {
 
         expect(response.header['content-type']).toMatch('application/json');
         expect(response.statusCode).toBe(401);
-        expect(response.text).toBe("\"You're not authenticated\"");
+        expect(response.body).toBe("\"You're not authenticated\"");
     })
 
     test('should return 400 if no dishId provided', async () => {
@@ -192,7 +213,7 @@ describe('POST /bill/dish/add', () => {
 });
 
 
-// testing table routes
+// Get all table
 describe('GET /v1/table/all', () => {
     test("should get all tables", async () => {
         let data = {
@@ -225,10 +246,11 @@ describe('GET /v1/table/all', () => {
 
         expect(response.header['content-type']).toMatch('application/json');
         expect(response.statusCode).toBe(401);
-        expect(response.text).toBe("\"You're not authenticated\"");
+        expect(response.body).toBe("\"You're not authenticated\"");
     })
 })
 
+// Get booked table of user
 describe('GET /v1/table/user', () => {
     test("should get user's table", async () => {
         let data = {
@@ -261,11 +283,11 @@ describe('GET /v1/table/user', () => {
 
         expect(response.header['content-type']).toMatch('application/json');
         expect(response.statusCode).toBe(401);
-        expect(response.text).toBe("\"You're not authenticated\"");
+        expect(response.body).toBe("\"You're not authenticated\"");
     })
 });
 
-// /me/info
+// Get current user's information
 describe('GET /v1/user/me/info', () => {
     test("should get user's info", async () => {
         let data = {
@@ -298,11 +320,11 @@ describe('GET /v1/user/me/info', () => {
 
         expect(response.header['content-type']).toMatch('application/json');
         expect(response.statusCode).toBe(401);
-        expect(response.text).toBe("\"You're not authenticated\"");
+        expect(response.body).toBe("\"You're not authenticated\"");
     })
 });
 
-// v1/discount/user
+// Get all discounts of user
 describe('POST /v1/discount/user', () => {
     test("should get user's discount", async () => {
         let data = {
@@ -335,6 +357,8 @@ describe('POST /v1/discount/user', () => {
 
         expect(response.header['content-type']).toMatch('application/json');
         expect(response.statusCode).toBe(401);
-        expect(response.text).toBe("\"You're not authenticated\"");
+        expect(response.body).toBe("\"You're not authenticated\"");
     })
 });
+
+
