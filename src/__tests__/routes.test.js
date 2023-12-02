@@ -24,10 +24,27 @@ initWebRoutes(app);
 
 // Register 
 describe('POST /v1/auth/register', () => {
-    test("should register user fail", async () => {
+    test("should register user successly", async () => {
         let data = {
-            "email": "test11@gmail.com",
-            "username": "test11",
+            "email": "test12345@gmail.com",
+            "username": "test12345",
+            "password": "123456"
+        }
+
+        const response = await request(app)
+            .post('/v1/auth/register')
+            .send(data)
+            .set('Accept', 'application/json')
+
+        expect(response.header['content-type']).toMatch('application/json');
+        expect(response.statusCode).toBe(400);
+        expect(response.body).toHaveProperty('message', 'Please provide all required fields.');
+    });
+
+    test("should register user fail when email has been used", async () => {
+        let data = {
+            "email": "trungpd@gmail.com",
+            "username": "trungpd",
             "password": "123456"
         }
 
@@ -40,20 +57,39 @@ describe('POST /v1/auth/register', () => {
         expect(response.statusCode).toBe(409);
         expect(response.body).toHaveProperty('message', 'User already exist.');
     })
+
+    test("should register failed when missing password", async () => {
+        let data = {
+            "email": "duong12456@gmail.com",
+            "username": "duong12456",
+            "password": ""
+        }
+
+        const response = await request(app)
+            .post('/v1/auth/register')
+            .send(data)
+            .set('Accept', 'application/json')
+
+        expect(response.header['content-type']).toMatch('application/json');
+        expect(response.statusCode).toBe(400);
+        expect(response.body).toHaveProperty('message', 'Please provide all required fields.');
+    })
+
 });
+
 
 // Login
 describe('POST /v1/auth/login', () => {
     test("should login user successly", async () => {
         let data = {
-            "email": "test11@gmail.com",
+            "email": "trungpd@gmail.com",
             "password": "123456"
         }
-        
+
         const response = await request(app)
             .post('/v1/auth/login')
             .send(data)
-            .set('Accept', 'application/json') 
+            .set('Accept', 'application/json')
 
         expect(response.header['content-type']).toMatch('application/json');
         expect(response.statusCode).toBe(200);
@@ -61,7 +97,23 @@ describe('POST /v1/auth/login', () => {
 
     test("should login user fail", async () => {
         let data = {
-            "email": "",
+            "email": "trungpd@gmail.com",
+            "password": "000"
+        }
+
+        const response = await request(app)
+            .post('/v1/auth/login')
+            .send(data)
+            .set('Accept', 'application/json')
+
+        expect(response.header['content-type']).toMatch('application/json');
+        expect(response.statusCode).toBe(400);
+        expect(response.body).toHaveProperty('message', 'Wrong email or password');
+    })
+
+    test("should login failed when password is not correct", async () => {
+        let data = {
+            "email": "trungpd@gmail.com",
             "password": ""
         }
 
@@ -75,6 +127,44 @@ describe('POST /v1/auth/login', () => {
         expect(response.body).toHaveProperty('message', 'Email and password are required');
     })
 })
+
+
+// Get current user's information
+describe('GET /v1/user/me/info', () => {
+    test("should get user's info", async () => {
+        let data = {
+            "email": "trungpd@gmail.com",
+            "password": "123456"
+        }
+
+        // make the login request
+        const loginRes = await request(app)
+            .post('/v1/auth/login')
+            .send(data)
+            .set('Accept', 'application/json')
+
+        // set the token
+        const TOKEN = loginRes.body.accessToken;
+
+        const response = await request(app)
+            .get('/v1/user/me/info')
+            .set('Accept', 'application/json')
+            .set('Authorization', `Bearer ${TOKEN}`)
+        expect(response.header['content-type']).toMatch('application/json');
+        expect(response.statusCode).toBe(200);
+        expect(response.body).toHaveProperty('message', 'User found');
+    })
+
+    test('should return 401 if no token provided', async () => {
+        const response = await request(app)
+            .get('/v1/user/me/info')
+            .set('Accept', 'application/json')
+
+        expect(response.header['content-type']).toMatch('application/json');
+        expect(response.statusCode).toBe(401);
+        expect(response.body).toBe("\"You're not authenticated\"");
+    })
+});
 
 // Get all dish
 describe('GET /v1/dish', () => {
@@ -94,8 +184,8 @@ describe('GET /v1/dish', () => {
 describe('GET /bill/cart', () => {
     test("should get all dishes in cart", async () => {
         let data = {
-            "email" : "thanhduongphan@gmail.com",
-            "password" : "123456"
+            "email": "trungpd@gmail.com",
+            "password": "123456"
         }
 
         // make the login request
@@ -111,13 +201,6 @@ describe('GET /bill/cart', () => {
             .get('/v1/bill/cart')
             .set('Accept', 'application/json')
             .set('Authorization', `Bearer ${TOKEN}`);
-
-        if(response.statusCode == 500){
-            // console.log('error');
-            // console.log(response.body.name)
-            throw new Error(response.body.name);
-        }
-        // console.log(response.body);
 
         expect(response.header['content-type']).toMatch('application/json');
         expect(response.statusCode).toBe(200);
@@ -152,7 +235,7 @@ describe('POST /bill/dish/add', () => {
 
     test('should return 400 if no dishId provided', async () => {
         let data = {
-            "email": "thanhduongphan@gmail.com",
+            "email": "trungpd@gmail.com",
             "password": "123456"
         }
 
@@ -180,7 +263,7 @@ describe('POST /bill/dish/add', () => {
 
     test("should add dish to cart", async () => {
         let data = {
-            "email": "thanhduongphan@gmail.com",
+            "email": "trungpd@gmail.com",
             "password": "123456"
         }
 
@@ -195,12 +278,12 @@ describe('POST /bill/dish/add', () => {
         const response = await request(app)
             .post('/v1/bill/dish/add')
             .send({
-                "dishId": "2"
+                "dishId": "1"
             })
             .set('Accept', 'application/json')
             .set('Authorization', `Bearer ${TOKEN}`)
-        
-        if(response.statusCode == 500){
+
+        if (response.statusCode == 500) {
             console.log('error');
             console.log(response.body)
             throw new Error(response.body.message);
@@ -217,7 +300,7 @@ describe('POST /bill/dish/add', () => {
 describe('GET /v1/table/all', () => {
     test("should get all tables", async () => {
         let data = {
-            "email": "thanhduongphan@gmail.com",
+            "email": "trungpd@gmail.com",
             "password": "123456"
         }
 
@@ -254,10 +337,10 @@ describe('GET /v1/table/all', () => {
 describe('GET /v1/table/user', () => {
     test("should get user's table", async () => {
         let data = {
-            "email": "thanhduongphan@gmail.com",
+            "email": "trungpd@gmail.com",
             "password": "123456"
         }
-        
+
         // make the login request
         const loginRes = await request(app)
             .post('/v1/auth/login')
@@ -287,48 +370,12 @@ describe('GET /v1/table/user', () => {
     })
 });
 
-// Get current user's information
-describe('GET /v1/user/me/info', () => {
-    test("should get user's info", async () => {
-        let data = {
-            "email": "thanhduongphan@gmail.com",
-            "password": "123456"
-        }
-
-        // make the login request
-        const loginRes = await request(app)
-            .post('/v1/auth/login')
-            .send(data)
-            .set('Accept', 'application/json')
-
-        // set the token
-        const TOKEN = loginRes.body.accessToken;
-
-        const response = await request(app)
-            .get('/v1/user/me/info')
-            .set('Accept', 'application/json')
-            .set('Authorization', `Bearer ${TOKEN}`)
-        expect(response.header['content-type']).toMatch('application/json');
-        expect(response.statusCode).toBe(200);
-        expect(response.body).toHaveProperty('message', 'User found');
-    })
-    
-    test('should return 401 if no token provided', async () => {
-        const response = await request(app)
-            .get('/v1/user/me/info')
-            .set('Accept', 'application/json')
-
-        expect(response.header['content-type']).toMatch('application/json');
-        expect(response.statusCode).toBe(401);
-        expect(response.body).toBe("\"You're not authenticated\"");
-    })
-});
 
 // Get all discounts of user
 describe('POST /v1/discount/user', () => {
     test("should get user's discount", async () => {
         let data = {
-            "email": "thanhduongphan@gmail.com",
+            "email": "trungpd@gmail.com",
             "password": "123456"
         };
 
@@ -360,5 +407,3 @@ describe('POST /v1/discount/user', () => {
         expect(response.body).toBe("\"You're not authenticated\"");
     })
 });
-
-
