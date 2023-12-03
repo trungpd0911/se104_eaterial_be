@@ -6,9 +6,9 @@ const authMiddleware = require('../middlewares/authMiddleware.js')
 router.post('/', authMiddleware.verifyTokenAdmin, tableController.createTable);
 router.delete('/:id', authMiddleware.verifyTokenAdmin, tableController.deleteTable);
 router.get('/filter', authMiddleware.verifyTokenAdmin, tableController.filterTables);
-router.get('/all', authMiddleware.verifyToken, tableController.getAllTables);
 
 // User
+router.get('/all', authMiddleware.verifyToken, tableController.getAllTables);
 router.get('/user', authMiddleware.verifyToken, tableController.getUserTable);
 
 module.exports = router;

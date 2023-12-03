@@ -174,6 +174,14 @@ const filterBills = async (filter) => {
 const addDishToCart = async (addDishToCartReq) => {
     const userId = addDishToCartReq.userId;
     const dishId = addDishToCartReq.dishId;
+
+    if (!dishId || dishId == "") {
+        return {
+            status: 400,
+            message: "DishId is required"
+        }
+    }
+
     try {
         let unpaidBill = await billModel.findOne({
             where: {
@@ -233,7 +241,7 @@ const addDishToCart = async (addDishToCartReq) => {
 
         return {
             status: 200,
-            message: "Add dish to bill successfully",
+            message: "Add dish to cart successfully",
             data: currBillDish,
         }
     } catch (error) {
