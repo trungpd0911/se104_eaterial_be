@@ -12,7 +12,7 @@ router.post('/', authMiddleware.verifyTokenAdmin, discountController.createDisco
 // Admins delete a discount
 router.delete('/:id', authMiddleware.verifyTokenAdmin, discountController.deleteDiscount);
 
-// Admin assign a discount to a all user:s:
+// Admin assign a discount to a all users
 router.post('/assign/:id', authMiddleware.verifyTokenAdmin, discountController.assignDiscountToAllUsers);
 
 // User get all their discounts

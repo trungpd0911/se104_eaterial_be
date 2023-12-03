@@ -12,7 +12,7 @@ router.put('/:id', authMiddleware.verifyTokenAdminOrCurrentUser, uploadCloudUser
 // forgot password
 router.post('/forgot-password', userController.forgotPassword);
 // change password
-router.post('/:id/change-password/', authMiddleware.verifyTokenAndAuthorization, userController.changePassword);
+router.post('/change-password/', authMiddleware.verifyToken, userController.changePassword);
 // get information of me 
 router.get('/me/info', authMiddleware.verifyToken, userController.getMe);
 

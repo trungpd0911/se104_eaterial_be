@@ -23,7 +23,7 @@ sequelize.authenticate()
         console.log("Connect Db successfully");
     })
     .catch(err => {
-        console.log("Error when connecting to db: ", + err);
+        console.log("Error when connecting to db: ", err);
     })
 
 const db = {};
@@ -62,8 +62,8 @@ db.user.belongsToMany(db.discount, {
 });
 db.discount.belongsToMany(db.user, {
     through: db.userDiscount,
-    foreignKey: 'userId',
-    otherKey: 'discountId'
+    foreignKey: 'discountId',
+    otherKey: 'userId'
 });
 // user and bill 
 db.user.hasMany(db.bill, {

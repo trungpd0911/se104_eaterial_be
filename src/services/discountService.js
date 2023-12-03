@@ -127,7 +127,7 @@ const getAllUserDiscounts = async (userId) => {
         //     }]
         // });
 
-        const discounts = await userModel.findOne({
+        const discounts = await userModel.findAll({
             where: {
                 id: userId
             },
