@@ -33,7 +33,7 @@ const forgotPassword = async (req, res) => {
 }
 
 const changePassword = async (req, res) => {
-    const id = req.params.id;
+    const id = req.user.id;
     const response = await userService.changePassword(id, req.body);
     res.status(response.status).json(response);
 }
