@@ -27,6 +27,11 @@ const assignDiscountToAllUsers = async (req, res) => {
     res.status(response.status).json(response);
 }
 
+const assignAllDiscountToAllUsers = async (req, res) => {
+    const response = await discountService.assignAllDiscountToAllUsers();
+    res.status(response.status).json(response);
+}
+
 
 // User get all their discounts
 const getAllUserDiscounts = async (req, res) => {
@@ -40,5 +45,6 @@ module.exports = {
     createDiscount,
     deleteDiscount,
     getAllUserDiscounts,
-    assignDiscountToAllUsers
+    assignDiscountToAllUsers,
+    assignAllDiscountToAllUsers
 }
