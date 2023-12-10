@@ -56,5 +56,5 @@ npm start
 
 ## Deploy
 - This server is deployed in onrender 
-- This is link of the server : https://se104-eateria.onrender.com
-- this is the link of website : https://4food.vercel.app/home 
+- The link of the server: https://se104-eateria.onrender.com
+- The link of website: https://4food.vercel.app/home 
