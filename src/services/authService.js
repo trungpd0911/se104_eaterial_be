@@ -14,6 +14,14 @@ const register = async (body) => {
                 message: 'Please provide all required fields.',
                 data: null,
             }
+        // check password length at least 8 characters and contain at least 1 number and 1 letter 
+        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+        if (!passwordRegex.test(password))
+            return {
+                statusCode: 403,
+                message: 'Password must be at least 8 characters and contain at least 1 number and 1 letter.',
+                data: null,
+            }
         const checkUserExist = await user.findOne({ where: { email } });
         if (checkUserExist)
             return {
