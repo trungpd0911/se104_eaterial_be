@@ -6,6 +6,11 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey: true,
             type: DataTypes.INTEGER
         },
+        tableFloor: {
+            field: 'table_floor',
+            type: DataTypes.STRING,
+            allowNull: false
+        },
         tablePosition: {
             field: 'table_position',
             type: DataTypes.STRING,
