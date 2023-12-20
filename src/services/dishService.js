@@ -293,6 +293,12 @@ const filterDishByPriceAndMenuName = async (minPrice, maxPrice, menuId) => {
         else if (!minPrice && !maxPrice && menuId) {
             filterDish = allDish.filter(dish => dish.menuId == menuId);
         }
+        else
+            return {
+                statusCode: 400,
+                message: 'Missing data',
+                data: null,
+            }
         if (!filterDish)
             return {
                 statusCode: 404,
@@ -315,6 +321,12 @@ const filterDishByPriceAndMenuName = async (minPrice, maxPrice, menuId) => {
 
 const searchDishByName = async (keyword) => {
     try {
+        if (!keyword)
+            return {
+                statusCode: 400,
+                message: 'Missing data',
+                data: null,
+            }
         const allDish = await Dish.findAll();
         if (!allDish)
             return {
