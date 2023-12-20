@@ -52,7 +52,7 @@ const filterDishByPriceAndMenuName = async (req, res) => {
 }
 
 const searchDishByName = async (req, res) => {
-    const { keyword } = req.params;
+    const keyword = req.query.keyword;
     const response = await dishService.searchDishByName(keyword);
     res.status(response.statusCode).json(response);
 }
