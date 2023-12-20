@@ -472,6 +472,40 @@ const checkout = async (userId, discountCode) => {
     }
 }
 
+const resetCart = async (userId) => {
+    try {
+        let unpaidBill = await billModel.findOne({
+            where: {
+                userId: userId,
+                billPayed: false
+            }
+        });
+
+        if (!unpaidBill) {
+            return {
+                status: 400,
+                message: "No unpaid bill found"
+            }
+        }
+
+        await billDishModel.destroy({
+            where: {
+                billId: unpaidBill.id
+            }
+        });
+
+        return {
+            status: 200,
+            message: "Reset cart successfully",
+        }
+    } catch (error) {
+        return {
+            status: 500,
+            message: error.message
+        }
+    }
+}
+
 module.exports = {
     getAllBills,
     getUsersUnpaidBill,
@@ -482,5 +516,6 @@ module.exports = {
     removeDishFromCart,
     getAllDishesOfBill,
     getDishesInCart,
-    checkout
+    checkout,
+    resetCart
 }

@@ -106,6 +106,49 @@ const assignDiscountToAllUsers = async (discountId) => {
 
 }
 
+const assignAllDiscountToAllUsers = async () => {
+    try {
+        // Set to all not-having users
+        const users = await userModel.findAll();
+        const discounts = await discountModel.findAll();
+        // console.log(discounts, users);
+        for (let i = 0; i < users.length; i++) {
+            const user = users[i];
+            for (let j = 0; j < discounts.length; j++) {
+                const discount = discounts[j];
+                console.log(user, discount);
+                const userDiscount = await userDiscountModel.findOne({
+                    where: {
+                        userId: user.id,
+                        discountId: discount.id
+                    }
+                });
+                if (!userDiscount) {
+                    console.log("create", user.id, discount.id);
+                    await userDiscountModel.create({
+                        userId: user.id,
+                        discountId: discount.id
+                    });
+                }
+            }   
+        }
+
+        // sql query add userDiscount with userId = 6, discountId = 1:
+        // insert into userDiscount (userId, discountId) values (6, 1);
+
+        return {
+            status: 200,
+            message: "Assign all discount to all users successfully"
+        }
+
+    } catch (error) {
+        return {
+            status: 500,
+            message: error.message
+        }
+    }
+}
+
 // User get all their discounts
 const getAllUserDiscounts = async (userId) => {
     try {
@@ -159,5 +202,6 @@ module.exports = {
     createDiscount,
     deleteDiscount,
     getAllUserDiscounts,
-    assignDiscountToAllUsers
+    assignDiscountToAllUsers,
+    assignAllDiscountToAllUsers
 }

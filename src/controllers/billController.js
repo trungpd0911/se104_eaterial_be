@@ -82,6 +82,11 @@ const getDishesInCart = async (req, res) => {
     res.status(response.status).json(response);
 }
 
+const resetCart = async (req, res) => {
+    const userId = req.user.id;
+    const response = await billService.resetCart(userId);
+    res.status(response.status).json(response);
+}
 
 module.exports = {
     getUsersUnpaidBill,
@@ -93,5 +98,6 @@ module.exports = {
     removeDishFromCart,
     checkout,
     getAllDishesOfBill,
-    getDishesInCart
+    getDishesInCart,
+    resetCart
 }

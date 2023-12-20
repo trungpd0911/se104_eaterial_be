@@ -15,6 +15,7 @@ router.post("/checkout/:id", authMiddleware.verifyTokenAdminOrCurrentUser, billC
 
 // owner user
 router.get("/cart", authMiddleware.verifyToken, billController.getDishesInCart);
+router.delete("/cart/reset", authMiddleware.verifyToken, billController.resetCart);
 router.post("/dish/add", authMiddleware.verifyToken, billController.addDishToCart);
 router.post("/dish/remove", authMiddleware.verifyToken, billController.removeDishFromCart);
 
