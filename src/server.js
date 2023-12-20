@@ -27,6 +27,7 @@ const server = app.listen(port, () => {
 });
 
 const io = new Server(server, { cors: { origin: '*' } });
+
 configSocketIOAuth(io);
 configSocketIORoute(io);
 
