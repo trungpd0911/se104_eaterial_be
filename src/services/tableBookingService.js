@@ -61,7 +61,7 @@ const bookTable = async (userId, tableId, bookingTime) => {
 
         // Set status of table to Occupied
         table.tableStatus = 'Occupied';
-        table.save();
+        await table.save();
 
         return {
             toClient: {
@@ -112,18 +112,18 @@ const cancelTable = async (userId, tableId) => {
     }
 
     // If the table was booked by another user
-    if (tableBooking.userId != userId) {
-        return {
-            toClient: {
-                message: "Someone booked this table"
-            },
-            broadcast: null
-        }
-    }
+    // if (tableBooking.userId != userId) {
+    //     return {
+    //         toClient: {
+    //             message: "Someone booked this table"
+    //         },
+    //         broadcast: null
+    //     }
+    // }
 
     // Set the status to Available
     table.tableStatus = 'Available';
-    table.save();
+    await table.save();
     tableBookingModel.destroy({
         where: {
             tableId: tableId
