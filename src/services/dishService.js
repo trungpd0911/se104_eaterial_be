@@ -273,7 +273,18 @@ const filterDishByPriceAndMenuName = async (minPrice, maxPrice, menuId) => {
                 message: 'Missing data',
                 data: null,
             }
-        const allDish = await Dish.findAll();
+        const allDish = await Dish.findAll({
+            include: [
+                {
+                    model: Image,
+                    attributes: ['imageLink', 'id'],
+                },
+                {
+                    model: Menu,
+                    attributes: ['menuName'],
+                }
+            ]
+        });
         if (!allDish)
             return {
                 statusCode: 404,
@@ -327,7 +338,19 @@ const searchDishByName = async (keyword) => {
                 message: 'Missing data',
                 data: null,
             }
-        const allDish = await Dish.findAll();
+        // const allDish = await Dish.findAll();
+        const allDish = await Dish.findAll({
+            include: [
+                {
+                    model: Image,
+                    attributes: ['imageLink', 'id'],
+                },
+                {
+                    model: Menu,
+                    attributes: ['menuName'],
+                }
+            ]
+        });
         if (!allDish)
             return {
                 statusCode: 404,
@@ -337,6 +360,7 @@ const searchDishByName = async (keyword) => {
         // check if keyword is 'Bún chả' => 'bun cha'
         keyword = keyword.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
         const filterDish = allDish.filter(dish => dish.dishName.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(keyword));
+
 
         if (!filterDish)
             return {
