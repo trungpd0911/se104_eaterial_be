@@ -112,6 +112,32 @@ const deleteUser = async (id) => {
     }
 }
 
+function generateRandomPassword() {
+    const length = 8;
+    const numbers = '0123456789';
+    const letters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+    // Combine numbers and letters to create the character pool
+    const characterPool = numbers + letters;
+
+    let password = '';
+
+    // Ensure at least one number and one letter in the password
+    password += numbers.charAt(Math.floor(Math.random() * numbers.length));
+    password += letters.charAt(Math.floor(Math.random() * letters.length));
+
+    // Generate the rest of the password
+    for (let i = 2; i < length; i++) {
+        password += characterPool.charAt(Math.floor(Math.random() * characterPool.length));
+    }
+
+    // Shuffle the password characters
+    password = password.split('').sort(() => Math.random() - 0.5).join('');
+
+    return password;
+}
+
+
 const forgotPassword = async (email) => {
     try {
         const user = await userModel.findOne({
@@ -125,8 +151,8 @@ const forgotPassword = async (email) => {
                 message: 'User not found'
             }
         }
-        // random new password
-        const newPassword = Math.random().toString(36).slice(-8);
+        // random new password must be at least 8 characters and contain at least 1 number and 1 letter.
+        const newPassword = generateRandomPassword();
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(newPassword, salt);
         user.password = hashedPassword;
@@ -144,11 +170,61 @@ const forgotPassword = async (email) => {
             to: email,
             subject: "Reset Password for 4food Eaterial",
             html: `
-            <h1>Reset Password for 4food Eaterial</h1>
-            <h2>Hi ${user.username},</h2>
-            <h2>Your new password is: <b>${newPassword}</b></h2>
+                <!DOCTYPE html>
+                <html lang="en">
+        
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>New Password</title>
+                </head>
+        
+                <body style="font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #f4f4f4;">
+                    <table
+                        style="max-width: 600px; margin: auto; background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+                        <tr>
+                            <td align="center">
+                                <h2 style="color: #333;">4FoodEateria</h2>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p style="color: #242424;">Dear ${user.username},</p>
+                                <p style="color: #242424;">Your new password has been generated successfully. Please use the following password
+                                    to
+                                    log in: </p>
+                                <div
+                                    style="font-size: 1.2em; padding: 10px; background-color: #f9f9f9; border-radius: 5px; word-wrap: break-word; overflow-wrap: break-word; color: #333; text-align: center; position: relative;">
+                                    <!-- Place the generated password here -->
+                                    ${newPassword}
+                                    <div onclick="copyToClipboard('${newPassword}')"
+                                        style="position: absolute; right: 32%; top: 28%;cursor: pointer;">
+                                        <i style="font-size: 1.5em; color: #333;" class="fas fa-copy" id="copy"></i>
+                                    </div>
+                                </div>
+                                <p style="color: #242424; margin-bottom: 10px;">If you did not request a new password, please let us know
+                                    immediately by replying to
+                                    this email. We recommend changing your password after logging in for security purposes.</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center">
+                                <p style="color: #242424;">Thank you for using our services!</p>
+                            </td>
+                        </tr>
+                    </table>
+                    <script>
+                        function copyToClipboard(text) {
+                            navigator.clipboard.writeText(text);
+                            document.getElementById("copy").classList.value = 'fas fa-check';
+                        }
+                    </script>
+                </body>
+        
+                </html>
             `,
         };
+
 
         transporter.sendMail(mailOptions, async (err) => {
             if (err) {
@@ -186,6 +262,13 @@ const changePassword = async (id, data) => {
                 message: 'User not found'
             }
         }
+        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+        if (!passwordRegex.test(newPassword))
+            return {
+                statusCode: 403,
+                message: 'Password must be at least 8 characters and contain at least 1 number and 1 letter.',
+                data: null,
+            }
         const isMatch = await bcrypt.compare(oldPassword, user.password);
         if (!isMatch) {
             return {
