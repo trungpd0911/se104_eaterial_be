@@ -20,6 +20,10 @@ After clone code successfully, use this command to install essential packages:
 npm install
 ```
 
+### Create database
+Create your mysql database. 
+Copy and run 2 file src/db/create-tables.sql and src/db/seeding.sql
+
 Create a .env file in the project root based on the provided .env.example file. This file will contain sensitive information such as database credentials. Replace the placeholder values with your actual database details.
 
 ### Run code
