@@ -83,7 +83,7 @@ INSERT INTO `tables` (table_position, table_status) VALUES ('H1', 'Available');
 INSERT INTO `tables` (table_position, table_status) VALUES ('H2', 'Available');
 INSERT INTO `tables` (table_position, table_status) VALUES ('I1', 'Available');
 INSERT INTO `tables` (table_position, table_status) VALUES ('I2', 'Available');
-INSERT INTO `tables` (table_position, table_status) VALUES ('J1', 'Available');
+INSERT INTO `tables` (table_position, table_status) VALUES ('J1', ' ');
 INSERT INTO `tables` (table_position, table_status) VALUES ('J2', 'Available');
 
 -- seeding discount

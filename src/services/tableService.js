@@ -127,11 +127,20 @@ const getUserTable = async (userId) => {
 }
 
 const getAllTables = async () => {
+    // Get all tables and their users who booked
     try {
-        const tables = await tableModel.findAll();
+        const tables = await tableModel.findAll({
+            include: [{
+                model: userModel,
+                attributes: ['id', 'username'],
+                through: {
+                    attributes: ['bookingTime']
+                }
+            }]
+        });
         return {
             status: 200,
-            message: 'Get all tables successfully',
+            message: "Get all tables successfully",
             data: tables
         }
     } catch (error) {
