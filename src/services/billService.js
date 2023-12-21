@@ -134,7 +134,10 @@ const filterBills = async (filter) => {
             }]
         }
         if (username) {
-            dbFilter.include[0].where['username'] = username;
+            // dbFilter.include[0].where['username'] = username;
+            dbFilter.include[0].where['username'] = {
+                [Sequelize.Op.like]: `%${username}%`
+            }
         }
         if (id) {
             dbFilter.where['id'] = id;
