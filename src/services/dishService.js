@@ -8,6 +8,13 @@ const cloudinary = require('cloudinary').v2;
 const createDish = async (fileImages, data) => {
     const { dishName, menuName, dishPrice, dishDescription } = data;
     try {
+        // check dishPrice is number and dishPrice > 0 and don't contain any character
+        if (dishPrice <= 0 || isNaN(dishPrice))
+            return {
+                statusCode: 400,
+                message: 'Dish price must be a number and greater than 0',
+                data: null,
+            }
         const checkMenuExist = await Menu.findOne({ where: { menuName } });
         if (!checkMenuExist) {
             return {
